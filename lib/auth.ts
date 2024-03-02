@@ -4,6 +4,8 @@ import dbConnect from './dbConnect'
 import UserModel from './models/UserModel'
 import NextAuth from 'next-auth'
 
+// I guess this is an example of how you configure NextAuth which has the session propeerty in it.
+// Firth you import it and then configure it like this. NextAuth(config)
 
 // this is auth.ts is the dependency for the middleware.ts and providers.ts
 // This is your configuration
@@ -63,10 +65,15 @@ export const config = {
     async jwt({ user, trigger, session, token }: any) {
       if (user) {
         token.user = {
-          _id: user._doc._id,
-          email: user._doc.email,
-          name: user._doc.name,
-          isAdmin: user._doc.isAdmin,
+          // _id: user._doc._id,
+          // email: user._doc.email,
+          // name: user._doc.name,
+          // isAdmin: user._doc.isAdmin,
+
+          _id: user._id,
+          email: user.email,
+          name: user.name,
+          isAdmin: user.isAdmin,
         }
       }
       if (trigger === 'update' && session) {

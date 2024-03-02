@@ -29,6 +29,7 @@ const Form = () => {
   })
 
   useEffect(() => {
+    console.log('@ sing-in - params:', params.get('callbackUrl'))
     if (session && session.user) {
       // console.log({session.user.name})
       router.push(callbackUrl)
