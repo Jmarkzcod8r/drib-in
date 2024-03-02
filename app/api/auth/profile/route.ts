@@ -13,6 +13,7 @@ export const PUT = auth(async (req) => {
   try {
     const dbUser = await UserModel.findById(user._id)
     if (!dbUser) {
+      console.log('user mising')
       return Response.json(
         { message: 'User not found' },
         {
