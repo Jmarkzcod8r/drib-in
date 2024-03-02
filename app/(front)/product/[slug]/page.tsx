@@ -1,7 +1,7 @@
 // 'use client'
 
 import React from 'react'
-// import data from '@/lib/data'
+import data from '@/lib/data'
 import Link from 'next/link'
 import Image from 'next/image'
 import productService from '@/lib/services/productService'
