@@ -8,6 +8,7 @@ import NextAuth from 'next-auth'
 // this is auth.ts is the dependency for the middleware.ts and providers.ts
 // This is your configuration
 export const config = {
+
   providers: [
     CredentialsProvider({
       credentials: {
@@ -21,7 +22,7 @@ export const config = {
         if (credentials == null) return null
 
         const user = await UserModel.findOne({ email: credentials.email },)
-        console.log('mongo user:', user.name)
+        console.log('mongo user:', user)
 
         if (user) {
           const isMatch = await bcrypt.compare(
@@ -35,7 +36,7 @@ export const config = {
         return null
       },
     }),
-  ],
+    ],
 
 // I'm guessing these are the callbacks pages
 
@@ -85,6 +86,7 @@ export const config = {
       }
       return session
     },
+    secret: `${process.env.AUTH_SECRET}`,
   },
 
 }
