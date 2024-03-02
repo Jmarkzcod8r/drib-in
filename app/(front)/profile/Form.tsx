@@ -31,6 +31,8 @@ const Form = () => {
   })
 
   useEffect(() => {
+    console.log('profile session', session)
+
     if (session && session.user) {
       setValue('name', session.user.name!)
       setValue('email', session.user.email!)
