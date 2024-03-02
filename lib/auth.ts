@@ -37,6 +37,8 @@ export const config = {
       },
     }),
     ],
+    secret: `${process.env.NEXTAUTH_SECRET}`
+    ,
 
 // I'm guessing these are the callbacks pages
 
@@ -86,7 +88,7 @@ export const config = {
       }
       return session
     },
-    secret: `${process.env.AUTH_SECRET}`,
+
   },
 
 }
