@@ -32,7 +32,7 @@ const Form = () => {
     console.log('@ sing-in - params:', params.get('callbackUrl'))
     if (session && session.user) {
       // console.log({session.user.name})
-      // router.push(callbackUrl)
+      router.push(callbackUrl)
       console.log('callbackURL', callbackUrl)
     }
   }, [callbackUrl, params, router, session])
