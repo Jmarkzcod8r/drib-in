@@ -42,6 +42,7 @@ const Form = () => {
   const formSubmit: SubmitHandler<Inputs> = async (form) => {
     const { name, email, password } = form
     try {
+
       const res = await fetch('/api/auth/profile', {
         method: 'PUT',
         headers: {
@@ -53,6 +54,7 @@ const Form = () => {
           password,
         }),
       })
+
       if (res.status === 200) {
         toast.success('Profile updated successfully')
         const newSession = {

@@ -26,6 +26,9 @@ export const config = {
         const user = await UserModel.findOne({ email: credentials.email },)
         console.log('mongo user:', user)
 
+        // const user2 = await user.findOne({ email: credentials.email },)
+        // console.log('mongo user:', user2)
+
         if (user) {
           const isMatch = await bcrypt.compare(
             credentials.password as string,
@@ -34,6 +37,8 @@ export const config = {
           if (isMatch) {
             return user
           }
+        } else {
+          console.log('user???')
         }
         return null
       },
