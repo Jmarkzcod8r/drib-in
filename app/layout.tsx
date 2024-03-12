@@ -24,7 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
 
-      <Providers>
+      <Providers> {/* This is for your session */}
       <div className="min-h-screen flex flex-col">
 
       <Header />

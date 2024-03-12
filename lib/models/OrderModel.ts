@@ -52,7 +52,7 @@ export default OrderModel
 export type Order = {
   _id: string
   user?: { name: string }
-  items: [OrderItem]
+  items: [OrderItem] // items is a list of products or [OrderItem]
   shippingAddress: {
     fullName: string
     address: string

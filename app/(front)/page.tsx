@@ -19,7 +19,7 @@ export default async function Home() {
   const latestProducts = await productService.getLatest()
   return (
     <>
-      <div className="w-full carousel rounded-box mt-4">
+      <div className="w-full carousel rounded-box mt-4 bg-pink-400">
         {featuredProducts.map((product, index) => (
           <div
             key={product._id}
@@ -54,8 +54,14 @@ export default async function Home() {
           </div>
         ))}
       </div>
-      <h2 className="text-2xl py-2">Latest Products</h2>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+
+      <div className='flex flex-row gap-2 justify-start'>
+        {/* Justify-end is like having an anchor on the right side and justify-start on the left*/}
+      <h4 className="text-sm sm:text-md md:text-lg py-2 bg-blue-600">Home</h4>
+      <h4 className="text-sm sm:text-md md:text-lg py-2 bg-blue-600">Products</h4>
+      <h4 className="text-sm sm:text-md md:text-lg py-2 bg-blue-600">About</h4>
+      </div>
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
         {latestProducts.map((product) => (
           <ProductItem key={product.slug} product={convertDocToObj(product)} />
         ))}

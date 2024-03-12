@@ -40,17 +40,19 @@ export const config = {
     }),
     ],
 
-// I'm guessing these are the callbacks pages
+// I'm guessing these are the callbacks pages in regards to [...nextauth]
 
   pages: {
     signIn: '/signin',
     newUser: '/register',
     error: '/signin',
   },
+
+
   callbacks: {
     authorized({ request, auth}:any){
         const protectedPaths = [
-            // /\/shipping/,
+            /\/shipping/,
             /\/payment/,
             /\/place-order/,
             /\/profile/,
@@ -65,15 +67,15 @@ export const config = {
     async jwt({ user, trigger, session, token }: any) {
       if (user) {
         token.user = {
-          // _id: user._doc._id,
-          // email: user._doc.email,
-          // name: user._doc.name,
-          // isAdmin: user._doc.isAdmin,
+          _id: user._doc._id,
+          email: user._doc.email,
+          name: user._doc.name,
+          isAdmin: user._doc.isAdmin,
 
-          _id: user._id,
-          email: user.email,
-          name: user.name,
-          isAdmin: user.isAdmin,
+          // _id: user._id,
+          // email: user.email,
+          // name: user.name,
+          // isAdmin: user.isAdmin,
         }
       }
       if (trigger === 'update' && session) {
