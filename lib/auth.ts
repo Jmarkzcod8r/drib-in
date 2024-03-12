@@ -55,7 +55,7 @@ export const config = {
             /\/shipping/,
             /\/payment/,
             /\/place-order/,
-            /\/profile/,
+            // /\/profile/,
             /\/order\/(.*)/,
             /\/shipping/,
         ]
