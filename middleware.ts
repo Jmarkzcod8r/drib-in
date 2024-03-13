@@ -24,7 +24,7 @@ const authConfig = {
         /\/shipping/,
         /\/payment/,
         /\/place-order/,
-        /\/profile/,
+        // /\/profile/,
         /\/order\/(.*)/,
         /\/admin/,
       ]
