@@ -1,5 +1,5 @@
 
-// bcryptjs is a package to encrypt data. Install using `npm i bcryptjs`
+// bcryptjs is a package to encrypt data. Install using `npm i bcryptjs` ..
 import bcrypt from 'bcryptjs'
 
 const data = {
