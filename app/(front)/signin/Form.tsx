@@ -31,10 +31,18 @@ const Form = () => {
   useEffect(() => {
     console.log('@ sing-in - params:', params.get('callbackUrl'))
     if (session && session.user) {
+      try {
+        localStorage.setItem('name', session.user.name!)
+        localStorage.setItem('email', session.user.email!)
+      } catch (error) {
+        console.log('error')
+      }
       // console.log({session.user.name})
       router.push(callbackUrl)
       console.log('callbackURL', callbackUrl)
     }
+
+
   }, [callbackUrl, params, router, session])
 
   const formSubmit: SubmitHandler<Inputs> = async (form) => {

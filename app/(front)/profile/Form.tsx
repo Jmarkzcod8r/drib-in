@@ -30,14 +30,14 @@ const Form = () => {
     },
   })
 
-  // useEffect(() => {
-  //   console.log('profile session', session)
+  useEffect(() => {
+    console.log('profile session', session)
 
-  //   if (session && session.user) {
-  //     setValue('name', session.user.name!)
-  //     setValue('email', session.user.email!)
-  //   }
-  // }, [router, session, setValue])
+    if (session && session.user) {
+      setValue('name', session.user.name!)
+      setValue('email', session.user.email!)
+    }
+  }, [router, session, setValue])
 
   const formSubmit: SubmitHandler<Inputs> = async (form) => {
     const { name, email, password } = form
@@ -82,7 +82,8 @@ const Form = () => {
     <div className="max-w-sm  mx-auto card bg-base-300 my-4">
       <div className="card-body">
         <h1 className="card-title">Profile</h1>
-        <form onSubmit={handleSubmit(formSubmit)}>
+        {/* <form onSubmit={handleSubmit(formSubmit)}> */}
+        <form >
           <div className="my-2">
             <label className="label" htmlFor="name">
               Name

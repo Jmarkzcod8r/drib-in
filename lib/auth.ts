@@ -51,22 +51,29 @@ export const config = {
     signIn: '/signin',
     newUser: '/register',
     error: '/signin',
+    profile: '/profile',
   },
 
 
   callbacks: {
     authorized({ request, auth}:any){
-        const protectedPaths = [
-            /\/shipping/,
-            /\/payment/,
-            /\/place-order/,
-            /\/profile/,
-            /\/order\/(.*)/,
-            /\/shipping/,
-        ]
-        const { pathname} = request.nextUrl
-        if (protectedPaths.some((p) => p.test(pathname))) return !!auth
-        return true
+      const unprotectedPaths = [
+        '/profile', // Add the profile page to unprotected paths
+      ];
+
+      const { pathname } = request.nextUrl;
+      if (unprotectedPaths.includes(pathname)) return true;
+
+      // const protectedPaths = [
+      //   /\/shipping/,
+      //   /\/payment/,
+      //   /\/place-order/,
+      //   /\/order\/(.*)/,
+      //   /\/shipping/,
+      // ];
+
+      // if (protectedPaths.some((p) => p.test(pathname))) return !!auth;
+      // return true;
     },
 
     async jwt({ user, trigger, session, token }: any) {
