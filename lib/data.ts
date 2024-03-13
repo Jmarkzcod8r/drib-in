@@ -94,18 +94,7 @@ const data = {
       countInStock: 20,
       description: 'A popular pants',
     },
-    {
-      name: 'Add',
-      slug: '',
-      category: '',
-      image: '/images/add.png',
-      price: 0,
-      brand: '',
-      rating: 0,
-      numReviews: 0,
-      countInStock: 0,
-      description: '0',
-    },
+
   ],
 }
 

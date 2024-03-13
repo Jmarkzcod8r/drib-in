@@ -10,7 +10,7 @@ export const GET = async (request: NextRequest) => {
   // await UserModel.deleteMany()
   // await UserModel.insertMany(users)
 
-  // await ProductModel.deleteMany()
+  await ProductModel.deleteMany()
   await ProductModel.insertMany(products)
 
   return NextResponse.json({
