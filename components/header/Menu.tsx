@@ -13,7 +13,8 @@ const Menu = () => {
 
 
   const signoutHandler = () => {
-    signOut({ callbackUrl: '/signin' })
+    signOut({ callbackUrl: '/signin' }),
+    localStorage.clear()
     init()
   }
 
@@ -107,9 +108,9 @@ const Menu = () => {
                     tabIndex={0}
                     className="menu dropdown-content z-[1] p-2 shadow bg-base-300 rounded-box w-52 "
                   >
-                    <li>
+                    {/* <li>
                       <Link href="/order-history">Order History</Link>
-                    </li>
+                    </li> */}
 
 
                     {/* {session.user.isAdmin && (

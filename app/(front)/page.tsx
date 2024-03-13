@@ -6,6 +6,8 @@ import productService from '@/lib/services/productService'
 import { convertDocToObj } from '@/lib/utils'
 import { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
+import Swal from 'sweetalert2';
 
 export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_APP_NAME || 'Next Amazona V2',
@@ -17,6 +19,10 @@ export const metadata: Metadata = {
 export default async function Home() {
   const featuredProducts = await productService.getFeatured()
   const latestProducts = await productService.getLatest()
+
+
+
+
   return (
     <>
       <div className="w-full carousel rounded-box mt-4 bg-pink-400">
@@ -65,6 +71,22 @@ export default async function Home() {
         {latestProducts.map((product) => (
           <ProductItem key={product.slug} product={convertDocToObj(product)} />
         ))}
+        <div className='card bg-base-300 shadow-xl p-1'>
+                  <figure className='text-sm w-full'>
+            <a href={`/add`} target="_blank" rel="noopener noreferrer">
+              <Image
+                src={`/images/add.png`}
+                alt={`sdasd`}
+                // objectFit='cover'
+                //So far, I think the grid CSS is better for cards and width and height inside it is best
+                // The width and height seems to set the maximum allowable dimensions
+                width={2000}
+                height={2000}
+                className='w-full'
+              />
+            </a>
+          </figure>
+        </div>
       </div>
     </>
   )

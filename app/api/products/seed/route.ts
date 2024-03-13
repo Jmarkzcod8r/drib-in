@@ -11,7 +11,7 @@ export const GET = async (request: NextRequest) => {
   // await UserModel.insertMany(users)
 
   // await ProductModel.deleteMany()
-  // await ProductModel.insertMany(products)
+  await ProductModel.insertMany(products)
 
   return NextResponse.json({
     message: 'seeded successfully',

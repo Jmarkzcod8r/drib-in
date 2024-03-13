@@ -66,7 +66,8 @@ console.log(session)
     })
       .then((response) => response.json())
       .then((orderData) => {
-        toast.success('Order paid successfully')
+        toast.success('Order paid successfully');
+        window.location.reload();
       })
   }
 

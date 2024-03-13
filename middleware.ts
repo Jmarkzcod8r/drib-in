@@ -21,12 +21,13 @@ const authConfig = {
   callbacks: {
     authorized({ request, auth }: any) {
       const protectedPaths = [
-        /\/shipping/,
-        /\/payment/,
-        /\/place-order/,
+        // /\/shipping/,
+        // /\/payment/,
+        // /\/place-order/,
         // /\/profile/,
-        /\/order\/(.*)/,
-        /\/admin/,
+        // /\/order\/(.*)/,
+        // /\/admin/,
+        /\/xyz/
       ]
       const { pathname } = request.nextUrl
       if (protectedPaths.some((p) => p.test(pathname))) return !!auth
