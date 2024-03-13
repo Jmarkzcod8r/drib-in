@@ -23,7 +23,7 @@ export async function generateMetadata({
     description: product.description,
   }
 }
-//
+///
 export default async function ProductDetails({ params,} : {params : {slug: string}}) {
   const product = await productService.getBySlug(params.slug)
   if (!product) {
