@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default async function Profile() {
-  return <Form2 />
+  return <Form />
 }
