@@ -1,8 +1,118 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import ImageKit from 'imagekit';
+import Image from 'next/image';
+import axios from 'axios'
+import { storage } from '../../../lib/firebase-config'
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  listAll,
+  deleteObject,
+} from "firebase/storage";
+import { v4 } from "uuid";
+
+
 
 const AddProductForm: React.FC<{ onSubmit: (formData: any) => void }> = ({ onSubmit }) => {
+
+// //     // ImageKit
+//   const imagekit = new ImageKit({
+//     publicKey: "public_zfnfmyT6QMQG7IzlVPv9IYulFRg=",
+//     privateKey: "private_gA4rYPHq2cgIIdjNyHHR2JHohTE=",
+//     urlEndpoint: "https://ik.imagekit.io/JMnext08",
+//     // authenticationEndpoint: "http://localhost:3000/api/auth",
+// });
+
+// // function uploadImage() {
+// //   const file = document.getElementById("file1");
+// //   console.log('this is file',file)
+
+// //   // Generate authentication parameters
+// //   const authenticationParameters = imagekit.getAuthenticationParameters();
+
+// //   // Prepare options for upload
+// //   const uploadOptions = {
+// //       file: file,
+// //       fileName: "abc1.jpg",
+// //       folder: "/your_folder", // Specify your desired folder for uploads
+// //       useUniqueFileName: true,
+// //       tags: ["tag1"],
+// //       isPrivateFile: true, // Mark the file as private if needed
+// //       customCoordinates: "10,10,100,100", // If you want to crop the image
+// //       ...authenticationParameters, // Include authentication parameters
+// //   };
+
+// //   // Upload the image
+// //   imagekit.upload(uploadOptions, function(err, result) {
+// //       if (err) {
+// //           console.error('Error uploading image:', err);
+// //       } else {
+// //           console.log('Image uploaded successfully:', result);
+// //       }
+// //   });
+// // }
+const [imageUpload, setImageUpload] = useState<File | null>(null)
+const [photoref, setPhotoref] = useState(``)
+
+const folderRef = ref(storage, "images/");
+
+const uploadFile = (imageUpload) => {
+  if (imageUpload == null) return;
+  listAll(folderRef).then((response) => {
+    console.log("current response: ", response);
+    // response.items.forEach((item, index) => {
+      // console.log("loc: ", item._location.path_);
+
+      // const deleteRef = ref(storage, item._location.path_);
+      // deleteObject(deleteRef);
+    // });
+  });
+  try {
+    if (imageUpload) {
+      console.log('this is imagepload',imageUpload)
+      const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
+      uploadBytes(imageRef, imageUpload).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url) => {
+          // setCurrentpic(url);
+          setPhotoref(url);
+          console.log("this url: ",url)
+
+          // const handleUpload = async () => {
+          //   // Send a POST request to your backend API endpoint to save the photo reference to MongoDB
+          //   try {
+          //     const response = await axios.post(`/api/addPhotoref`, {
+          //       photoref: url,
+          //       // email: 'jhjasd',
+          //     });
+          //     console.log(response.data);
+          //   } catch (error) {
+          //     console.error(error);
+          //   }
+          // };
+
+          // handleUpload();
+        });
+      });
+
+
+    }
+
+
+
+
+  } catch (err) {
+    console.log(err)
+  }
+
+};
+
+
+
+
+
   const [formData, setFormData] = useState({
     name: '',
     slug: '',
@@ -40,8 +150,24 @@ const AddProductForm: React.FC<{ onSubmit: (formData: any) => void }> = ({ onSub
     });
   };
 
+  useEffect(() => {
+    console.log(imageUpload) ;
+    console.log(`this is photoref`,photoref)
+  })
+
   return (
     <form onSubmit={handleSubmit} className='flex flex-col bg-blue-400 gap-3 p-4 rounded-lg'>
+              <div className='flex justify-center'>
+          {photoref && (
+            <Image
+              className=""
+              src={photoref}
+              height={80}
+              width={80}
+              alt=""
+            />
+          )}
+        </div>
       <div className='flex flex-row items-center'>
         <p className='mr-4 text-white'>NAME:</p>
         <input
@@ -64,16 +190,26 @@ const AddProductForm: React.FC<{ onSubmit: (formData: any) => void }> = ({ onSub
           onChange={handleChange}
         />
       </div> */}
-      <div className='flex flex-row items-center'>
+      <div className='flex flex-row items-center '>
         <p className='mr-4 text-white'>IMAGE:</p>
         <input
-          className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
-          id="image"
-          type="file"
-          accept="image/*"
-          multiple // Enable multi-file upload
-          // onChange={handleImageChange}
-        />
+  className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
+  type="file"
+  placeholder='01'
+          onChange={(event) => {
+            if (event.target.files && event.target.files.length > 0) {
+              const selectedFile = event.target.files[0];
+              const fileSizeInBytes = selectedFile.size;
+              const fileSizeInMB = fileSizeInBytes / (1024 * 1024);
+              console.log(`File size: ${fileSizeInMB.toFixed(2)} MB`);
+              // setImageUpload(selectedFile);
+              uploadFile(selectedFile)
+              setImageUpload(selectedFile);
+            } else {
+              console.log("No file selected");
+              // Handle the case when no file is selected
+            }
+          }} />
       </div>
       <div className='flex flex-row items-center'>
         <p className='mr-4 text-white'>CATEGORY:</p>
@@ -148,6 +284,13 @@ const AddProductForm: React.FC<{ onSubmit: (formData: any) => void }> = ({ onSub
       >
         Submit
       </button>
+
+      <button onClick={uploadFile}>
+        Upload
+      </button>
+
+
+      {/* <button onClick={uploadImage}>Upload Image</button> */}
     </form>
   );
 };
@@ -161,6 +304,8 @@ const MyComponent: React.FC = () => {
   return (
     <div>
       <AddProductForm onSubmit={handleSubmit} />
+
+      {/* <button onClick={uploadImag}>Upload Image</button> */}
     </div>
   );
 };
