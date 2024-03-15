@@ -20,3 +20,16 @@
 // }
 
 // export default App;
+
+import React from 'react'
+
+const page = () => {
+  return (
+    <div>
+        Imagekit
+
+    </div>
+  )
+}
+
+export default page
