@@ -13,6 +13,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { v4 } from "uuid";
+import { POST } from '@/lib/auth';
 
 
 
@@ -54,13 +55,16 @@ const AddProductForm: React.FC<{ onSubmit: (formData: any) => void }> = ({ onSub
 // //       }
 // //   });
 // // }
-const [imageUpload, setImageUpload] = useState<File | null>(null)
+const [image, setImage] = useState<File | null>(null)
 const [photoref, setPhotoref] = useState(``)
+
+const [name, setName] = useState(`-`)
+
 
 const folderRef = ref(storage, "images/");
 
-const uploadFile = (imageUpload) => {
-  if (imageUpload == null) return;
+const uploadFile = (image) => {
+  if (image == null) return;
   listAll(folderRef).then((response) => {
     console.log("current response: ", response);
     // response.items.forEach((item, index) => {
@@ -71,29 +75,39 @@ const uploadFile = (imageUpload) => {
     // });
   });
   try {
-    if (imageUpload) {
-      console.log('this is imagepload',imageUpload)
-      const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
-      uploadBytes(imageRef, imageUpload).then((snapshot) => {
+    if (image) {
+      console.log('this is image',image)
+      const imageRef = ref(storage, `images/${image.name + v4()}`);
+      uploadBytes(imageRef, image).then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
           // setCurrentpic(url);
           setPhotoref(url);
           console.log("this url: ",url)
 
-          // const handleUpload = async () => {
-          //   // Send a POST request to your backend API endpoint to save the photo reference to MongoDB
-          //   try {
-          //     const response = await axios.post(`/api/addPhotoref`, {
-          //       photoref: url,
-          //       // email: 'jhjasd',
-          //     });
-          //     console.log(response.data);
-          //   } catch (error) {
-          //     console.error(error);
-          //   }
-          // };
+            const handleUpload = async () => {
+              // Send a POST request to your backend API endpoint to save the photo reference to MongoDB
+              try {
+                const response = await axios.post(`/api/addPPhoto`, {
+                  name: 'Free Shirt',
+                  slug: 'free-shirt',
+                  category: 'Shirts',
+                  image: '/images/shirt1.jpg',
+                  price: 70,
+                  brand: 'Nike',
+                  rating: 4.5,
+                  numReviews: 8,
+                  countInStock: 20,
+                  description: 'A popular shirt',
+                  isFeatured: true,
+                  banner: '/images/banner1.jpg',
+                });
+                console.log(response.data);
+              } catch (error) {
+                console.error(error);
+              }
+            };
 
-          // handleUpload();
+          handleUpload();
         });
       });
 
@@ -151,7 +165,7 @@ const uploadFile = (imageUpload) => {
   };
 
   useEffect(() => {
-    console.log(imageUpload) ;
+    console.log(image) ;
     console.log(`this is photoref`,photoref)
   })
 
@@ -202,9 +216,9 @@ const uploadFile = (imageUpload) => {
               const fileSizeInBytes = selectedFile.size;
               const fileSizeInMB = fileSizeInBytes / (1024 * 1024);
               console.log(`File size: ${fileSizeInMB.toFixed(2)} MB`);
-              // setImageUpload(selectedFile);
+              // setImage(selectedFile);
               uploadFile(selectedFile)
-              setImageUpload(selectedFile);
+              setImage(selectedFile);
             } else {
               console.log("No file selected");
               // Handle the case when no file is selected

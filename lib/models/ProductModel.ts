@@ -32,15 +32,15 @@ export type Product = {
     _id?: string
     name: string
     slug: string
-    image: string
+    image: string   // This is a url on most part
     banner?: string
     price: number
     brand: string
     description: string
     category: string
-    rating: number
-    numReviews: number
-    countInStock: number
+    rating: number    //dedfault 0
+    numReviews: number  //default 0
+    countInStock: number  //default 0
     colors?: []
     sizes?: []
 }
