@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 const Productitem = ({product} : {product: Product }) => {
   return (
-    <div className='card bg-base-300 shadow-xl p-1'>
+    <div className='card bg-base-300 shadow-xl p-1' draggable='true'>
         <figure className=' text-sm w-full'>
             <Link  href={`/product/${product.slug}`}>
                 <Image
