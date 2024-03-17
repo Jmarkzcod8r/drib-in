@@ -1,29 +1,31 @@
-
 import dbConnect from "@/lib/dbConnect";
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from "next/server";
 import ProductModel from "@/lib/models/ProductModel";
 
-// import { MongoClient} from "mongodb"
-// import { Getuserinfo } from "../../../functions global/Getuserinfo";
-import { useEffect } from "react";
-import mongoose from "mongoose";
-// import Credemail from "../mongodb/Credemail";
-
-import { NextResponse , NextRequest } from "next/server";
-
-
 export async function POST(req: NextRequest) {
-  const data = await req.json()
-
   try {
-    console.log('Received data', data);
+    // Connect to the MongoDB database
+    await dbConnect();
 
+    // Extract data from the request body
+    const data = await req.json();
+
+    // Insert the data into the database using the Mongoose model
+    const newProduct = await ProductModel.create(data);
+
+    // Log the inserted product
+    console.log('Inserted product:', newProduct);
+
+    // Respond with a success message
     return NextResponse.json({ success: true });
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.error('Error inserting product:', error);
+    // Respond with an error message
+    return NextResponse.json({ success: false, error: 'Internal Server Error' });
   }
 }
 
+// {name:'asd'}
 
 
 // Oh so, I see the name isn't necessarily have to be 'index'

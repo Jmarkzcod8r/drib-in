@@ -58,7 +58,7 @@ const AddProductForm: React.FC<{ onSubmit: (formData: any) => void }> = ({ onSub
 const [image, setImage] = useState<File | null>(null)
 const [photoref, setPhotoref] = useState(``)
 
-const [name, setName] = useState(null)
+const [name, setName] = useState(`-`)
 
 
 const folderRef = ref(storage, "images/");
@@ -84,9 +84,30 @@ const uploadFile = (image) => {
           setPhotoref(url);
           console.log("this url: ",url)
 
+            const handleUpload = async () => {
+              // Send a POST request to your backend API endpoint to save the photo reference to MongoDB
+              try {
+                const response = await axios.post(`/api/addPPhoto`, {
+                  name: 'Free Shirt',
+                  slug: 'free-shirt',
+                  category: 'Shirts',
+                  image: '/images/shirt1.jpg',
+                  price: 70,
+                  brand: 'Nike',
+                  rating: 4.5,
+                  numReviews: 8,
+                  countInStock: 20,
+                  description: 'A popular shirt',
+                  isFeatured: true,
+                  banner: '/images/banner1.jpg',
+                });
+                console.log(response.data);
+              } catch (error) {
+                console.error(error);
+              }
+            };
 
-
-          // handleUpload();
+          handleUpload();
         });
       });
 
@@ -98,34 +119,6 @@ const uploadFile = (image) => {
 
   } catch (err) {
     console.log(err)
-  }
-
-};
-
-const handleUpload = async () => {
-  if (image) {
-    // Send a POST request to your backend API endpoint to save the photo reference to MongoDB
-  try {
-    const response = await axios.post(`/api/addPPhoto`, {
-      name: !name? image.name : name,
-      slug: image.name.trim().toLowerCase().replace(/\s+/g, '-'),
-      category: 'Shirts',
-      image: photoref,
-      price: 70,
-      brand: 'Nike',
-      rating: 4.5,
-      numReviews: 8,
-      countInStock: 20,
-      description: 'A popular shirt',
-      isFeatured: true,
-      banner: '/images/banner1.jpg',
-    });
-    console.log(response.data);
-  } catch (error) {
-    console.error(error);
-  }
-
-
   }
 
 };
@@ -176,11 +169,6 @@ const handleUpload = async () => {
     console.log(`this is photoref`,photoref)
   })
 
-  const handleName = (event) => {
-    setName(event.target.value);
-  };
-
-
   return (
     <form onSubmit={handleSubmit} className='flex flex-col bg-blue-400 gap-3 p-4 rounded-lg'>
               <div className='flex justify-center'>
@@ -201,8 +189,8 @@ const handleUpload = async () => {
           id="name"
           type="text"
           placeholder="Name"
-          // value={formData.name}
-          onChange={handleName}
+          value={formData.name}
+          onChange={handleChange}
         />
       </div>
       {/* <div className='flex flex-row items-center'>
@@ -311,7 +299,7 @@ const handleUpload = async () => {
         Submit
       </button>
 
-      <button onClick={handleUpload}>
+      <button onClick={uploadFile}>
         Upload
       </button>
 
