@@ -5,14 +5,14 @@ import { paypal } from '@/lib/paypal'
 
 export const POST = auth(async (...request: any) => {
   const [req, { params }] = request
-  if (!req.auth) {
-    return Response.json(
-      { message: 'unauthorized' },
-      {
-        status: 401,
-      }
-    )
-  }
+  // if (!req.auth) {
+  //   return Response.json(
+  //     { message: 'unauthorized' },
+  //     {
+  //       status: 401,
+  //     }
+  //   )
+  // }
   await dbConnect()
   const order = await OrderModel.findById(params.id)
   if (order) {
