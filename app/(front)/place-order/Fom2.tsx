@@ -25,27 +25,32 @@ const Form = () => {
   const { trigger: placeOrder, isMutating: isPlacing } = useSWRMutation(
     `/api/orders/mine`,
     async (url) => {
-      const response = await axios.post('/api/orders', {
-        paymentMethod,
-        shippingAddress,
-        items,
-        itemsPrice,
-        taxPrice,
-        shippingPrice,
-        totalPrice,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      try {
+        const response = await axios.post('/api/orders', {
+          paymentMethod,
+          shippingAddress,
+          items,
+          itemsPrice,
+          taxPrice,
+          shippingPrice,
+          totalPrice,
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
-      if (response.status === 200 || response.status === 201)  {
-        const order = response.data.order;
-        // clear()
-        toast.success('Order placed successfully');
-        return router.push(`/order/${order._id}`);
-      } else {
-        toast.error(response.data.message);
+        if (response.status === 200) {
+          const order = response.data.order;
+          // clear()
+          toast.success('Order placed successfully');
+          return router.push(`/order/${order._id}`);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        // Handle error here
+        console.error('Error:', error);
       }
     }
   )
