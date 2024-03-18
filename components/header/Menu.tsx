@@ -31,8 +31,11 @@ const Menu = () => {
     if (session) {
       console.log(session)
     }
-    const getUser = localStorage.get('name')
-    setUser(getUser)
+    const getUser = localStorage.getItem('name')
+    if (getUser) {
+      setUser(getUser)
+    }
+
 
 
     setMounted(true)
