@@ -10,8 +10,9 @@ import axios from 'axios'
 export default function MyOrders() {
   const router = useRouter()
   const [userid, setUserid] = useState('')
-  const payload = { id: userid};
 
+  const uuid = localStorage.getItem('id')
+  const payload = { id: uuid};
   // Fetch data using useSWR with custom fetch function using Axios
   const { data: orders, error } = useSWR(`/api/orders/mine`, async (url) => {
     try {
@@ -22,7 +23,9 @@ export default function MyOrders() {
       return response.data;
     } catch (error) {
       // Handle errors
-      throw new Error('Failed to fetch data');
+      console.log('waiting while in err')
+      // Now i see that 'throw' throws a  small notification like a pop-up. It throws a pop-up
+      // throw new Error('Failed to fetch data');
     }
   });
   const [mounted, setMounted] = useState(false)
@@ -37,7 +40,7 @@ export default function MyOrders() {
 
   if (!mounted) return <></>
 
-  if (error) return 'An error has occurred.'
+  if (error) return 'Awaiting Data...'
   if (!orders) return 'Loading...'
 
   return (

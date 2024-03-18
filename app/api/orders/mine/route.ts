@@ -12,11 +12,16 @@ export const POST = auth(async (req: any) => {
   //       status: 401,
   //     }
   //   )
+  const payload = await req.json()
   console.log('getching')
   // }
-  console.log('payload for oders/mine', req)
-  const { user } = req.auth
+  console.log('payload for oders/mine', payload)
+  // const { user } = req.auth
   await dbConnect()
-  const orders = await OrderModel.find({ user: user._id })
-  return Response.json(orders)
+  if (payload.id){
+    const orders = await OrderModel.find({ user: payload.id })
+    return Response.json(orders)
+  }
+
+
 }) as any
