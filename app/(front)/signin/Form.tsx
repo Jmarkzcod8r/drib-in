@@ -40,6 +40,11 @@ const Form = () => {
       }
       // console.log({session.user.name})
       router.push(callbackUrl)
+      window.onload = function() {
+        // Reload the page
+        window.location.reload();
+    };
+
       console.log('callbackURL', callbackUrl)
     }
 

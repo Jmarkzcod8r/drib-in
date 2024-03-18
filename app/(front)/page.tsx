@@ -1,4 +1,4 @@
-// 'use client'
+// "use client"
 /* eslint-disable @next/next/no-img-element */
 import ProductItem from '@/components/products/ProductItem'
 // import data from '@/lib/data'
@@ -8,6 +8,8 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import Swal from 'sweetalert2';
+import { useEffect } from 'react'
+
 
 export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_APP_NAME || 'Next Amazona V2',
@@ -20,8 +22,7 @@ export default async function Home() {
   const featuredProducts = await productService.getFeatured()
   const latestProducts = await productService.getLatest()
 
-
-
+  // if (typeof window == "undefined") { window.location.reload()}
 
   return (
     <>
