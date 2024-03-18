@@ -18,7 +18,7 @@ const Form = () => {
     taxPrice,
     shippingPrice,
     totalPrice,
-    clear,
+    // clear,
   } = useCartService()
 
   const { trigger: placeOrder, isMutating: isPlacing } = useSWRMutation(
@@ -41,7 +41,7 @@ const Form = () => {
       })
       const data = await res.json()
       if (res.ok) {
-        clear()
+        // clear()
         toast.success('Order placed successfully')
         return router.push(`/order/${data.order._id}`)
       } else {

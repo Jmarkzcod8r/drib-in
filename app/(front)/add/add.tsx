@@ -14,6 +14,8 @@ import {
 } from "firebase/storage";
 import { v4 } from "uuid";
 import { POST } from '@/lib/auth';
+import { makeslug } from '@/lib/utils';
+
 
 
 
@@ -76,7 +78,11 @@ const uploadFile = (image) => {
   });
   try {
     if (image) {
-      console.log('this is image',image)
+      console.log('this is image',image.width)
+
+
+
+
       const imageRef = ref(storage, `images/${image.name + v4()}`);
       uploadBytes(imageRef, image).then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
@@ -108,11 +114,11 @@ const handleUpload = async () => {
   try {
     const response = await axios.post(`/api/addPPhoto`, {
       name: !name? image.name : name,
-      slug: image.name.trim().toLowerCase().replace(/\s+/g, '-'),
+      slug: !name? makeslug(image.name) : makeslug(name) ,
       category: 'Shirts',
       image: photoref,
       price: 70,
-      brand: 'Nike',
+      brand: 'brandz',
       rating: 4.5,
       numReviews: 8,
       countInStock: 20,
@@ -181,6 +187,7 @@ const handleUpload = async () => {
   };
 
 
+
   return (
     <form onSubmit={handleSubmit} className='flex flex-col bg-blue-400 gap-3 p-4 rounded-lg'>
               <div className='flex justify-center'>
@@ -217,25 +224,53 @@ const handleUpload = async () => {
         />
       </div> */}
       <div className='flex flex-row items-center '>
+        {/* <canvas id='canvas'></canvas> */}
         <p className='mr-4 text-white'>IMAGE:</p>
         <input
   className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
   type="file"
   placeholder='01'
-          onChange={(event) => {
+          onChange={
+            (event) => {
             if (event.target.files && event.target.files.length > 0) {
               const selectedFile = event.target.files[0];
               const fileSizeInBytes = selectedFile.size;
               const fileSizeInMB = fileSizeInBytes / (1024 * 1024);
               console.log(`File size: ${fileSizeInMB.toFixed(2)} MB`);
-              // setImage(selectedFile);
+              // This saves our pic to firebase Storage
               uploadFile(selectedFile)
+              // This shows our pic in the front-end
               setImage(selectedFile);
             } else {
               console.log("No file selected");
               // Handle the case when no file is selected
             }
-          }} />
+
+             if (event.target && event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        if (e.target) {
+          const image = document.createElement('img');
+          image.src = e.target.result as string;
+
+          image.onload = () => {
+            const width = image.width;
+            const height = image.height;
+            console.log('Width:', width);
+            console.log('Height:', height);
+          };
+        }
+      };
+
+      reader.readAsDataURL(file);
+    } else {
+      console.log("No file selected");
+    }
+           }
+
+           } />
       </div>
       <div className='flex flex-row items-center'>
         <p className='mr-4 text-white'>CATEGORY:</p>
@@ -304,14 +339,14 @@ const handleUpload = async () => {
           onChange={handleChange}
         />
       </div>
-      <button
+      {/* <button
         type="submit"
         className='bg-white text-blue-400 py-2 px-4 rounded-md hover:bg-blue-200 transition duration-300 self-center'
       >
         Submit
-      </button>
+      </button> */}
 
-      <button onClick={handleUpload}>
+      <button onClick={handleUpload} className='bg-white text-blue-400 py-2 px-4 rounded-md hover:bg-blue-200 transition duration-300 self-center'>
         Upload
       </button>
 
