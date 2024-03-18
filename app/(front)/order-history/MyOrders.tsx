@@ -5,13 +5,33 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import useSWR from 'swr'
+import axios from 'axios'
 
 export default function MyOrders() {
   const router = useRouter()
-  const { data: orders, error } = useSWR(`/api/orders/mine`)
+  const [userid, setUserid] = useState('')
+  const payload = { id: userid};
 
+  // Fetch data using useSWR with custom fetch function using Axios
+  const { data: orders, error } = useSWR(`/api/orders/mine`, async (url) => {
+    try {
+      // Make a POST request using Axios with the payload
+      const response = await axios.post(url, payload);
+
+      // Return the response data
+      return response.data;
+    } catch (error) {
+      // Handle errors
+      throw new Error('Failed to fetch data');
+    }
+  });
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
+    const uid = (localStorage.getItem('id'))
+    if(uid) {
+      setUserid(uid)
+    }
+
     setMounted(true)
   }, [])
 
