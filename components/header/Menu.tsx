@@ -89,15 +89,15 @@ const Menu = () => {
             </Link>
           </li>
 
-          {/* {session && session.user ? ( */}
-            {user ? (
+          {(session && session.user) || user ? (
+            // {user ? (
             <>
               <li>
                 <div className="dropdown dropdown-bottom dropdown-end">
                 {/* {session.user.name} */}
                   <label tabIndex={0} className="btn btn-ghost rounded-btn">
-                   {/* {session.user.name} */}
-                   {user}
+                   {session? session.user.name : user}
+                   {/* {user} */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
