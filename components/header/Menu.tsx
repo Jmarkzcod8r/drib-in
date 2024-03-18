@@ -5,12 +5,13 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import useSWR, { useSWRConfig } from 'swr'
 // import { SearchBox } from './SearchBox'
 
 const Menu = () => {
   const { items, init } = useCartService()
   const [mounted, setMounted] = useState(false)
-
+  const [user, setUser] = useState('')
 
   const signoutHandler = () => {
     signOut({ callbackUrl: '/signin' }),
@@ -30,6 +31,8 @@ const Menu = () => {
     if (session) {
       console.log(session)
     }
+    const getUser = localStorage.get('name')
+    setUser(getUser)
 
 
     setMounted(true)
@@ -82,13 +85,16 @@ const Menu = () => {
               )}
             </Link>
           </li>
-          {session && session.user ? (
+
+          {/* {session && session.user ? ( */}
+            {user ? (
             <>
               <li>
                 <div className="dropdown dropdown-bottom dropdown-end">
                 {/* {session.user.name} */}
                   <label tabIndex={0} className="btn btn-ghost rounded-btn">
-                   {session.user.name}
+                   {/* {session.user.name} */}
+                   {user}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
