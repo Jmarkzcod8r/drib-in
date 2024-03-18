@@ -34,6 +34,7 @@ const Form = () => {
       try {
         localStorage.setItem('name', session.user.name!)
         localStorage.setItem('email', session.user.email!)
+        localStorage.setItem('id', session.user._id!)
       } catch (error) {
         console.log('error')
       }

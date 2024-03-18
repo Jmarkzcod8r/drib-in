@@ -10,6 +10,9 @@ import Image from 'next/image'
 import axios from 'axios'
 
 const Form = () => {
+
+  const [userid, setUserId] = useState('')
+
   const router = useRouter()
   const {
     paymentMethod,
@@ -25,7 +28,9 @@ const Form = () => {
   const { trigger: placeOrder, isMutating: isPlacing } = useSWRMutation(
     `/api/orders/mine`,
     async (url) => {
-      const response = await axios.post('/api/orders', {
+      const response = await axios.post('/api/orders',
+      // This is your payload
+      {
         paymentMethod,
         shippingAddress,
         items,
@@ -33,6 +38,7 @@ const Form = () => {
         taxPrice,
         shippingPrice,
         totalPrice,
+        userid
       }, {
         headers: {
           'Content-Type': 'application/json',
@@ -50,6 +56,12 @@ const Form = () => {
     }
   )
   useEffect(() => {
+    const getId = localStorage.getItem('id')
+    if(getId) {
+      setUserId(getId)
+    }
+
+    console.log('userId',getId)
     if (!paymentMethod) {
       return router.push('/payment')
     }

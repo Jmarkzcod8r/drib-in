@@ -20,19 +20,18 @@ const calcPrices = (orderItems: OrderItem[]) => {
 
 export const POST = auth(async (req: any) => {
     console.log('posting')
-  // if (!req.auth) {
-  //   return Response.json(
-  //     { message: 'unauthorized , something went wrong' },
-  //     {
-  //       status: 401,
-  //     }
-  //   )
-  // }
-  // const { user } = req.auth
-  // console.log(`this is user:`,user)
+  if (!req.auth) {
+    return Response.json(
+      { message: 'unauthorized , something went wrong' },
+      {
+        status: 401,
+      }
+    )
+  }
+  const { user } = req.auth
+  console.log(`this is user:`,user)
   try {
     const payload = await req.json()
-    console.log('thiss is paylload',payload)
     await dbConnect()
     const dbProductPrices = await ProductModel.find(
       {
@@ -58,7 +57,7 @@ export const POST = auth(async (req: any) => {
       totalPrice,
       shippingAddress: payload.shippingAddress,
       paymentMethod: payload.paymentMethod,
-      user: payload.userid,
+      user: user._id,
     })
 
     const createdOrder = await newOrder.save()
