@@ -14,6 +14,6 @@ export const formatId = (x: string) => {
   return `..${x.substring(20, 24)}`
 }
 
-export const makeslug =(name: string) => {
-  return name.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-}
+export const makeslug = (name: string) => {
+    return name.toString().trim().toLowerCase().replace(/\s+/g, '-')
+};

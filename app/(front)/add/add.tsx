@@ -115,6 +115,8 @@ const handleUpload = async () => {
     const response = await axios.post(`/api/addPPhoto`, {
       name: !name? image.name : name,
       slug: !name? makeslug(image.name) : makeslug(name) ,
+
+        // slug: image.name.toString().trim().toLowerCase().replace(/\s+/g, '-')  ,
       category: 'Shirts',
       image: photoref,
       price: 70,
