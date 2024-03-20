@@ -1,11 +1,16 @@
 import mongoose from 'mongoose'
 
+
+// This is for Mongodb
 const productSchema = new mongoose.Schema(
     {
       name: { type: String, required: true },
+      // To satify the unique:true of slug, we can use timestamp or uuid or the uniqueness of another property
+      // like an email
       slug: { type: String, required: true, unique: true },
       category: { type: String, required: true },
       image: { type: String, required: true },
+      otherimages: [{ type: String, required: false }], //-> This makes it an array of strings
       price: { type: Number, required: true },
       brand: { type: String, required: true },
       rating: { type: Number, required: true, default: 0 },
@@ -27,12 +32,14 @@ const productSchema = new mongoose.Schema(
 
 
 //The `?` make the property optional
+// This is for TypeScript
 export type Product = {
 
     _id?: string
     name: string
     slug: string
     image: string   // This is a url on most part
+    otherimages?: string[] // The question mark `?` makes a property optional
     banner?: string
     price: number
     brand: string

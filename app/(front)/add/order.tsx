@@ -22,12 +22,11 @@ import { makeslug } from '@/lib/utils';
 const AddProductForm: React.FC<{ onSubmit: (formData: any) => void }> = ({ onSubmit }) => {
 
 
-const [image, setImage] = useState<File |  null>(null)
+const [image, setImage] = useState<File | null>(null)
 const [photoref, setPhotoref] = useState(``)
 
 const [name, setName] = useState(null)
 const [filename, setFilename]= useState('')
-const [imglist, setImglist] = useState([])
 
 
 const folderRef = ref(storage, "images/");
@@ -252,8 +251,8 @@ async function convertToWebp(src,fil) {
             <img
               className=""
               src={photoref}
-              height={200}
-              width={200}
+              height={80}
+              width={80}
               alt=""
             />
           )}
@@ -286,7 +285,6 @@ async function convertToWebp(src,fil) {
         <input
   className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto mb-4'
   type="file"
-  multiple
   placeholder='01'
   onChange={convertImage}
 

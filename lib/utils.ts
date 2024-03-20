@@ -15,5 +15,6 @@ export const formatId = (x: string) => {
 }
 
 export const makeslug = (name: string) => {
-    return name.toString().trim().toLowerCase().replace(/\s+/g, '-')
+  return name.toString().trim().toLowerCase().replace(/[^a-z0-9]/g, '-') + `${Date.now()}`
 };
+

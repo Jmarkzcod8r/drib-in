@@ -62,11 +62,11 @@ export default async function Home() {
         ))}
       </div>
 
-      <div className='flex flex-row gap-2 justify-start'>
+      <div className='flex flex-row gap-2 justify-start pb-1'>
         {/* Justify-end is like having an anchor on the right side and justify-start on the left*/}
-      <h4 className="text-sm sm:text-md md:text-lg py-2 bg-blue-600">Home</h4>
-      <h4 className="text-sm sm:text-md md:text-lg py-2 bg-blue-600">Products</h4>
-      <h4 className="text-sm sm:text-md md:text-lg py-2 bg-blue-600">About</h4>
+      <h4 className="text-sm sm:text-md md:text-lg py-2 bg-blue-400 p-4 rounded-md">Home</h4>
+      <h4 className="text-sm sm:text-md md:text-lg py-2 bg-blue-400 p-4 rounded-md">Products</h4>
+      <h4 className="text-sm sm:text-md md:text-lg py-2 bg-blue-400 p-4 rounded-md">About</h4>
       </div>
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
         {latestProducts.map((product) => (

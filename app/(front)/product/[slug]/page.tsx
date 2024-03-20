@@ -34,21 +34,31 @@ export default async function ProductDetails({ params,} : {params : {slug: strin
           <div className="my-2">
             <Link href="/">back to products</Link>
           </div>
-          <div className="grid md:grid-cols-4 md:gap-3">
-            <div className="md:col-span-2">
-              <Image
+          <div className="grid md:grid-cols-3 md:gap-3 bg-blue-300 ">
+            <div className="md:col-span-1 bg-red-400">
+            <img
+              className="w-full"
+              src={product.image}
+              // height={300}
+              // width={400}
+              alt=""
+            />
+            <div className='h-[4em]'>
+              asndasd
+            </div>
+              {/* <Image
                 src={product.image}
                 alt={product.name}
-                width={640}
+                width={300}
                 height={640}
-                sizes="100vw"
+                sizes="60vw"
                 style={{
                   width: '100%',
                   height: 'auto',
                 }}
-              ></Image>
+              ></Image> */}
             </div>
-            <div>
+            <div className='text-center'>
               <ul className="space-y-4">
                 <li>
                   <h1 className="text-xl">{product.name}</h1>
