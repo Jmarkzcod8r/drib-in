@@ -4,12 +4,21 @@ import ProductModel, { Product } from '@/lib/models/ProductModel'
 
 export const revalidate = 3600
 
-const getLatest = cache(async () => {
+
+
+const getLatest = cache(async (limit?: number) => {
   await dbConnect()
-  // const products = await ProductModel.find({}).sort({ _id: -1 }).limit(9).lean()
-  const products = await ProductModel.find({}).sort({ _id: -1 }).lean()
-  return products as Product[]
-})
+
+  let products: Product[];
+
+  if (limit !== undefined) {
+    products = await ProductModel.find({}).sort({ _id: -1 }).limit(limit).lean();
+  } else {
+    products = await ProductModel.find({}).sort({ _id: -1 }).lean();
+  }
+
+  return products;
+}) as (limit?: number) => Promise<Product[]>;
 
 const getFeatured = cache(async () => {
   await dbConnect()

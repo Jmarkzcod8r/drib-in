@@ -31,7 +31,7 @@ const Productitem = ({product} : {product: Product }) => {
             </Link>
             <p className=''>{product.brand}</p>
             <div className='card-actions flex items-center justify-between '>
-                <span className='text-sm sm:text-md'>${product.price}</span>
+                <span className='text-sm sm:text-md'> ₱ {product.price}</span>
 
             </div>
             <div>Stock:</div>

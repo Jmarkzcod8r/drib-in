@@ -23,17 +23,7 @@ export async function generateMetadata({
     description: product.description,
   }
 }
-
-// const handleFileChange = (event) => {
-//   const fileList = event.target.files;
-//   const fileNames = [];
-
-//   for (let i = 0; i < fileList.length; i++) {
-//     fileNames.push(fileList[i].name);
-//   }
-
-//   console.log("Selected files:", fileNames);
-// };
+///
 
 
 export default async function ProductDetails({ params,} : {params : {slug: string}}) {
@@ -57,8 +47,8 @@ export default async function ProductDetails({ params,} : {params : {slug: strin
             />
             <div className='h-[4em]'>
             <button type="button" >
-              {/* Click me */}
-              <input type="file" placeholder="Enter text" multiple />
+              Click me
+              <input type="file" placeholder="Enter text" />
             </button>
             </div>
               {/* <Image
