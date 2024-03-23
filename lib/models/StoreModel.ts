@@ -8,6 +8,7 @@ export type store = {
   zip: number
   city: string
   user: string
+  banner: string
 }
 
 const StoreSchema = new mongoose.Schema(
@@ -17,7 +18,9 @@ const StoreSchema = new mongoose.Schema(
     zip:            { type: Number, required: true,},
     city:           { type: String, required: true },
     user:           { type: String, required: true },
+    banner:           { type: String, required: false },
   },
+
   // Putting timestamps:true created two additional properties which are:
   // `createdAt` and `updatedAt`
   { timestamps: true }

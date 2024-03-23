@@ -129,26 +129,26 @@ const Menumid = () => {
 </div>
 
 
-<div className=' w-full justify-around hidden sm:flex h-auto'>
+<div className=' w-[50%] justify-around hidden sm:flex h-auto'>
 <Link className='scale-150' title='Home' href="/">
   <FaHome className='scale-150' />
 </Link>
 
-<Link className='scale-150' title='Products' href="/products">
+{/* <Link className='scale-150' title='Products' href="/products">
   <BsBoxes className='scale-150' />
-</Link>
+</Link> */}
 
 <Link className='scale-150' title='Photos' href="/photos">
   <HiMiniPhoto className='scale-150' />
 </Link>
 
-<Link className='scale-150' title='Contacts' href="/contacts">
+{/* <Link className='scale-150' title='Contacts' href="/contacts">
   <IoMdContact className='scale-150' />
-</Link>
+</Link> */}
 
-<Link className='scale-150' title='Testimonials' href="/feedback">
+{/* <Link className='scale-150' title='Testimonials' href="/feedback">
   <RiFeedbackLine  className='scale-150' />
-</Link>
+</Link> */}
 
   </div>
 

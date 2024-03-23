@@ -33,16 +33,18 @@ export default async function ProductDetails({ params,} : {params : {slug: strin
   }
   return (
         <>
+
           <div className="my-2">
-            <Link href="/">back to products</Link>
+            <Link href="/">back to productss</Link>
           </div>
-          <div className="grid md:grid-cols-3 md:gap-3 bg-blue-300 ">
+
+          {/* <div className="grid md:grid-cols-4 md:gap-3 bg-blue-300 ">
             <div className="md:col-span-1  p-2">
             <img
-              className="w-full rounded-lg"
+              className="w-[100%] rounded-lg "
               src={product.image}
-              // height={300}
-              // width={400}
+              height={300}
+              width={400}
               alt=""
             />
             <div className='h-[4em]'>
@@ -51,17 +53,7 @@ export default async function ProductDetails({ params,} : {params : {slug: strin
               <input type="file" placeholder="Enter text" />
             </button>
             </div>
-              {/* <Image
-                src={product.image}
-                alt={product.name}
-                width={300}
-                height={640}
-                sizes="60vw"
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                }}
-              ></Image> */}
+
             </div>
             <div className='text-center'>
               <ul className="space-y-4">
@@ -98,7 +90,7 @@ export default async function ProductDetails({ params,} : {params : {slug: strin
                       <AddToCart
                         item={{
                           ...convertDocToObj(product),
-                          // ...product,
+
                           qty: 0,
                           color: 'new',
                           size: '',
@@ -109,7 +101,7 @@ export default async function ProductDetails({ params,} : {params : {slug: strin
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </>
       )
     }

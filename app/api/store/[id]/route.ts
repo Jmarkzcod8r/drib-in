@@ -29,7 +29,8 @@ export const POST = (async (...request: any) => {
     address: payload.address,
     zip: payload.zip,
     city: payload.city,
-    user: payload.user
+    user: payload.user,
+    banner: payload.banner
   })
   const createdStore = await newStore.save()
   // const order = await StoreModel.save()

@@ -8,6 +8,10 @@ import productService from '@/lib/services/productService'
 import AddToCart from '@/components/products/AddtoCart'
 import { convertDocToObj } from '@/lib/utils'
 
+import { FaChevronLeft } from "react-icons/fa";
+import { FaChevronRight } from "react-icons/fa";
+import { RiArrowGoBackLine } from "react-icons/ri";
+
 
 export async function generateMetadata({
   params,
@@ -43,36 +47,46 @@ export default async function ProductDetails({ params,} : {params : {slug: strin
   }
   return (
         <>
-          <div className="my-2">
-            <Link href="/">back to products</Link>
+          <div className="my-2 flex flex-row">
+            <Link href="/"><RiArrowGoBackLine /></Link>
           </div>
-          <div className="grid md:grid-cols-3 md:gap-3 bg-blue-300 ">
-            <div className="md:col-span-1  p-2">
-            <img
-              className="w-full rounded-lg"
-              src={product.image}
-              // height={300}
-              // width={400}
-              alt=""
-            />
-            <div className='h-[4em]'>
-            <button type="button" >
-              {/* Click me */}
-              <input type="file" placeholder="Enter text" multiple />
-            </button>
-            </div>
-              {/* <Image
-                src={product.image}
-                alt={product.name}
-                width={300}
-                height={640}
-                sizes="60vw"
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                }}
-              ></Image> */}
-            </div>
+          <div className="grid md:grid-cols-3 md:gap-3 bg-blue-100 ">
+          <div className="flex flex-row justify-around p-2 relative ">
+                {/* Left arrow */}
+                <button
+                  className=' w-full'
+                  // className=" top-1/2 left-0 transform -translate-y-1/2 h-full bg-slate-400"
+                  /* onClick={handlePreviousImage} */
+                >
+                    <FaChevronLeft />
+                  {/* Insert your left arrow icon here */}
+                  {/* Example: <LeftArrowIcon /> */}
+                </button>
+
+                {/* Image */}
+                <img
+                  className="max-h-[15em] rounded-lg"
+                  src={product.image}
+                  alt=""
+                />
+
+                {/* Right arrow */}
+                                  <button
+                    className='flex items-center justify-end w-full '
+                    /* onClick={handleNextImage} */
+                  >
+                    {/* Icon */}
+                    {/* <div className="flex-shrink-0"> */}
+                      <FaChevronRight />
+                      {/* Insert your right arrow icon here */}
+                      {/* Example: <RightArrowIcon /> */}
+                    {/* </div> */}
+                    {/* Optional text */}
+                    {/* <span>Next</span> */}
+                  </button>
+
+              </div>
+
             <div className='text-center'>
               <ul className="space-y-4">
                 <li>
@@ -81,16 +95,15 @@ export default async function ProductDetails({ params,} : {params : {slug: strin
                 <li>
                 {product.rating} of {product.numReviews} reviews
                 </li>
-                <li> {product.brand}</li>
+                {/* <li> {product.brand}</li> */}
                 <li>
                   <div className="divider"></div>
                 </li>
-                <li>
-                  Description: <p>{product.description}</p>
-                </li>
+
               </ul>
             </div>
-            <div>
+
+            {/* <div>
               <div className="card  bg-base-300 shadow-xl mt-3 md:mt-0">
                 <div className="card-body">
                   <div className="mb-2 flex justify-between">
@@ -118,6 +131,14 @@ export default async function ProductDetails({ params,} : {params : {slug: strin
                   )}
                 </div>
               </div>
+            </div> */}
+
+            <div>
+              <ul>
+            <li>
+                  Description: <p>{product.description}</p>
+                </li>
+              </ul>
             </div>
           </div>
         </>

@@ -84,7 +84,8 @@ function DigitalStoreForm() {
         address: formData.Address,
         zip: formData.zip,
         city: formData.City,
-        user: localStorage.getItem('id')
+        user: localStorage.getItem('id'),
+        banner: 'https://firebasestorage.googleapis.com/v0/b/delsa-profiling.appspot.com/o/images%2FG%20E%20N%20S%20A%20N%20S%20H%20O%20P_1711211136435.webp?alt=media&token=e92a21db-e14e-4bab-a554-afffbfab1c55'
       });
       alert(res.data.message); // Log the response data
     } catch (error) {

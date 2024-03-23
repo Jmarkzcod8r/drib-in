@@ -9,8 +9,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Swal from 'sweetalert2';
 import { useEffect } from 'react'
-import { FcSearch } from "react-icons/fc"
 
+
+import brownies from 'brownies.jpeg'
+import axios from 'axios';
+import search from './search'
+import Search from './search'
 
 // export const metadata: Metadata = {
 //   title: process.env.NEXT_PUBLIC_APP_NAME || 'GenShop',
@@ -21,9 +25,13 @@ import { FcSearch } from "react-icons/fc"
 
 export default async function Front() {
   const featuredProducts = await productService.getFeatured()
-  const latestProducts = await productService.getLatest(5)
+  const latestProducts = await productService.getLatest(7)
+  const sampleProducts = [{name:'productt1', color:'red', price:20, image:'../../public/images/brownies.jpeg'},{name:'productt2', color:'gray',price:206, image:''}]
 
   // if (typeof window == "undefined") { window.location.reload()}
+
+
+
 
   return (
     <div className='bg-black-200'>
@@ -63,9 +71,7 @@ export default async function Front() {
           </div>
         ))}
       </div>
-      <div className="flex  justify-around text-sm my-2 sm:text-md md:text-lg py-2 bg-blue-400 p-4 rounded-md w-full">
-        <div><input className='h-[2em]'/><button><FcSearch className='scale-150 mx-2' /></button></div>
-      </div>
+                <Search/> {/* This component utilizes `use client` which is contained only for its use */}
 
 
       <div className='flex flex-row gap-2 justify-start pb-1 '>
@@ -73,10 +79,16 @@ export default async function Front() {
       <h4 className="text-sm sm:text-md md:text-lg py-2 bg-blue-400 p-4 rounded-md w-full">Featured Products</h4>
       {/* <h4 className="text-sm sm:text-md md:text-lg py-2 bg-blue-400 p-4 rounded-md">Products</h4>
       <h4 className="text-sm sm:text-md md:text-lg py-2 bg-blue-400 p-4 rounded-md">About</h4> */}
+
       </div>
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5 ">
+      {/* <img src={brownies} className='h-[10em]' alt='Brownies'></img> */}
+
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
+      {/* {sampleProducts.map((product, index) => (
+          <ProductItem key={index} product={product} />
+        ))} */}
         {latestProducts.map((product) => (
-          <ProductItem key={product.slug} product={convertDocToObj(product)} />
+          <ProductItem key={product.slug} product={product} />
         ))}
         <div className='card bg-base-300 shadow-xl p-1'>
                   <figure className='text-sm w-full'>

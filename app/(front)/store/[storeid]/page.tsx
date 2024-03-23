@@ -1,21 +1,14 @@
-'use client'
+import { Metadata } from 'next'
+import Front from './front'
 
-import { useSearchParams } from 'next/navigation'
-
-export default function SearchBar() {
-  const searchParams = useSearchParams()
-
-  const name = searchParams.get('name')
-
-  // URL -> `/dashboard?search=my-project`
-  // `search` -> 'my-project'
+export const metadata: Metadata = {
+  title: 'GenShop',
+}
+export default function OrderHistory() {
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold mb-4">{name}</h1>
-        {/* Add your search component here */}
-      </div>
-    </div>
+    <>
+      {/* <h1 className="text-2xl py-2">Order History</h1> */}
+      <Front />
+    </>
   )
-
 }

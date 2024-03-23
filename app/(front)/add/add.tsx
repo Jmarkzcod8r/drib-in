@@ -214,7 +214,7 @@ async function convertToWebp(src,fil) {
                           slug: !name ? makeslug(image.name) : makeslug(name),
                           category: 'Shirts',
                           image: url,
-                          price: 70,
+                          price: formData.price? formData.price : 37,
                           brand: 'brandz',
                           otherimages: [],
                           rating: 4.5,

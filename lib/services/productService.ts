@@ -12,10 +12,11 @@ const getLatest = cache(async (limit?: number) => {
   let products: Product[];
 
   if (limit !== undefined) {
-    products = await ProductModel.find({}).sort({ _id: -1 }).limit(limit).lean();
-  } else {
-    products = await ProductModel.find({}).sort({ _id: -1 }).lean();
-  }
+    products = await ProductModel.find({ name: { $regex: /^sample/i } }).sort({ _id: -1 }).limit(limit).lean();
+} else {
+    products = await ProductModel.find({ name: { $regex: /^sample/i } }).sort({ _id: -1 }).lean();
+}
+
 
   return products;
 }) as (limit?: number) => Promise<Product[]>;
