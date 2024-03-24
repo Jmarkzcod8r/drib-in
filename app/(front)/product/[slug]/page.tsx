@@ -50,7 +50,7 @@ export default async function ProductDetails({ params,} : {params : {slug: strin
           <div className="my-2 flex flex-row">
             <Link href="/"><RiArrowGoBackLine /></Link>
           </div>
-          <div className="grid md:grid-cols-3 md:gap-3 bg-blue-100 ">
+          <div className="grid md:grid-cols-2 md:gap-3 bg-blue-100 ">
           <div className="flex flex-row justify-around p-2 relative ">
                 {/* Left arrow */}
                 <button
@@ -100,7 +100,14 @@ export default async function ProductDetails({ params,} : {params : {slug: strin
                   <div className="divider"></div>
                 </li>
 
+              {/* </ul> */}
+              {/* <div> */}
+              {/* <ul> */}
+            <li>
+                  Description: <p>{product.description}</p>
+                </li>
               </ul>
+            {/* </div> */}
             </div>
 
             {/* <div>
@@ -133,13 +140,7 @@ export default async function ProductDetails({ params,} : {params : {slug: strin
               </div>
             </div> */}
 
-            <div>
-              <ul>
-            <li>
-                  Description: <p>{product.description}</p>
-                </li>
-              </ul>
-            </div>
+
           </div>
         </>
       )

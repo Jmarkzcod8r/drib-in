@@ -90,7 +90,7 @@ export default async function Front() {
         {latestProducts.map((product) => (
           <ProductItem key={product.slug} product={product} />
         ))}
-        <div className='card bg-base-300 shadow-xl p-1'>
+        {/* <div className='card bg-base-300 shadow-xl p-1'>
                   <figure className='text-sm w-full'>
             <a href={`/add`} target="_blank" rel="noopener noreferrer">
               <Image
@@ -105,7 +105,7 @@ export default async function Front() {
               />
             </a>
           </figure>
-        </div>
+        </div> */}
       </div>
     </div>
   )

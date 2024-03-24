@@ -11,12 +11,13 @@ import useSWR from 'swr'
 import { useRouter } from 'next/navigation';
 
 function DigitalStoreForm() {
-    const [localemail, setLocalemail] = useState('')
+    const [user, setUser] = useState(false)
+    const [notif, setNotif] = useState(<p> <br></br></p>)
     const [showForm, setShowForm] = useState(false);
     const [data, setData] = useState<any[]>([]) //-> Setting it like this solve the  issue of type never
                                       // when mapping items
 
-    // const [userid, setUserid] = useState('')
+
 
     useEffect(() => {
       const fetchData = async () => {
@@ -34,6 +35,13 @@ function DigitalStoreForm() {
               }
           }
       };
+
+      const localuser = localStorage.getItem('id')
+      if (!localuser) {setNotif(<div> <a href="/signin" style={{ color: 'blue', textDecoration: 'underline' }}>
+      Sign in
+    </a> Required to Manage Stores</div>) ;
+        setUser(true)
+    }
 
       fetchData();
   }, []); // Make sure to include an empty dependency array to ensure useEffect runs only once
@@ -93,10 +101,12 @@ function DigitalStoreForm() {
     }
   };
 
-    const handleDelete = async (_id: any) => {
+    const handleDelete = async (_id: any, name: string) => {
       // e.preventDefault();
       try {
-        const res = await axios.delete(`/api/store/${_id}/delete`)
+        const res = await axios.delete(`/api/store/${name}/delete`,
+          // {data: {name: name}}
+        )
         alert (res.data.message)
       } catch (err) {
         alert(err)
@@ -105,6 +115,7 @@ function DigitalStoreForm() {
 
   return (
     <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+     {notif}
      <div className='h-[3em] m-2 bg-pink-600 flex fex-row justify-start p-1 gap-x-3'>
         <button className='bg-blue-400 p-3 rounded-lg' onClick={() => setShowForm(false)}>Manage</button>
         <button className='bg-blue-400 p-3 rounded-lg' onClick={() => setShowForm(true)}>Create</button>
@@ -127,7 +138,7 @@ function DigitalStoreForm() {
          </Link>
          <button
             className='bg-pink-300 p-2 rounded-md mr-5 hover:bg-red-500 transition duration-300 ease-in-out'
-            onClick={()=>handleDelete(item._id)}
+            onClick={()=>handleDelete(item._id, item.name)}
           >
             Delete
           </button>
@@ -182,7 +193,7 @@ function DigitalStoreForm() {
         </div>
 
         <div className="flex items-center justify-between">
-          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          <button disabled={user? true: false} title={user?'Sign In Required': ''} type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             Submit
           </button>
         </div>

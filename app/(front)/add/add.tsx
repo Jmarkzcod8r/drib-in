@@ -16,7 +16,7 @@ import { v4 } from "uuid";
 import { POST } from '@/lib/auth';
 import { makeslug } from '@/lib/utils';
 
-
+import { useSearchParams } from 'next/navigation'
 
 
 const AddProductForm: React.FC<{ onSubmit: (formData: any) => void }> = ({ onSubmit }) => {
@@ -29,6 +29,9 @@ const [name, setName] = useState(null)
 const [filename, setFilename]= useState('')
 const [imglist, setImglist] = useState([])
 
+const searchParams = useSearchParams()
+
+  const store = searchParams.get('store')
 
 const folderRef = ref(storage, "images/");
 
@@ -217,6 +220,7 @@ async function convertToWebp(src,fil) {
                           price: formData.price? formData.price : 37,
                           brand: 'brandz',
                           otherimages: [],
+                          store: store? store: '',
                           rating: 4.5,
                           numReviews: 8,
                           countInStock: 20,

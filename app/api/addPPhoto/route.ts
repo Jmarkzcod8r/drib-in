@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     console.log('Inserted product:', newProduct);
 
     // Respond with a success message
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true , newProduct: newProduct});
   } catch (error) {
     console.error('Error inserting product:', error);
     // Respond with an error message
