@@ -25,9 +25,13 @@ const AddProductForm: React.FC<{ onSubmit: (formData: any) => void }> = ({ onSub
 const [image, setImage] = useState<File |  null>(null)
 const [photoref, setPhotoref] = useState(``)
 
+const [imagelist, setImagelist] = useState<File |  null>(null)
+const [photoreflist, setPhotoreflist] = useState([])
+
 const [name, setName] = useState(null)
 const [filename, setFilename]= useState('')
 const [imglist, setImglist] = useState([])
+const [file, setFile] = useState<File |  null>(null)
 
 const searchParams = useSearchParams()
 
@@ -78,37 +82,27 @@ const uploadFile = (image) => {
 
 };
 
+// const handleUpload = async () => {
+
+// if (image) {
+//                                   // image.name is the same as file.name with file being our upload input
+//      //photoref => URL.createobjectUR(file[0])  // image => file[0]
+//   await blobtoWebotoFirebase(photoref,image.name);
+// }
+
+// };
+
 const handleUpload = async () => {
-  const Mongoupload = async (url) => {
-  //   if (image) {
-  //     // Send a POST request to your backend API endpoint to save the photo reference to MongoDB
-  //     try {
-  //         const response = await axios.post(`/api/addPPhoto`, {
-  //             name: !name ? image.name : name,
-  //             slug: !name ? makeslug(image.name) : makeslug(name),
-  //             category: 'Shirts',
-  //             image: url,
-  //             price: 70,
-  //             brand: 'brandz',
-  //             otherimages: [],
-  //             rating: 4.5,
-  //             numReviews: 8,
-  //             countInStock: 20,
-  //             description: 'A popular shirt',
-  //             isFeatured: true,
-  //             banner: '/images/Gensanshop.png',
-  //         });
-  //         console.log(response.data);
-  //         // Throw a success message on the client side
-  //         alert('Image uploaded');
-  //     } catch (error) {
-  //         console.error(error);
-  //     }
-  // }
-
+  if (selectedFile) {
+      const fileListArray = Array.from(selectedFile); // Convert FileList to array
+      for (let i = 0; i < fileListArray.length; i++) {
+          const file = fileListArray[i];
+          if (file) {
+              // Assuming blobtoWebotoFirebase is an asynchronous function
+              await blobtoWebotoFirebase(URL.createObjectURL(file), file.name);
+          }
+      }
   }
-
-  await convertToWebp(photoref,image?.name);
 };
 
   const [formData, setFormData] = useState({
@@ -156,20 +150,30 @@ const handleUpload = async () => {
   const handleName = (event) => {
     setName(event.target.value);
   };
+                                    // Aside from File there is also Filelist..okay
+  const [selectedFile, setSelectedFile] = useState<FileList | null>(null);
 
-  async function convertImage(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files;
+  // This is the intitial function for when we put files to input
+  async function ImagetoBlob(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files; // file is a list of object/s
+    console.log('this is files for input', file?file:'')
+    setSelectedFile(file);
+    // if (file) {setFile(file) }
+
     if (file && file.length > 0) {
+                  //URL.createObjectURL -> This creates a blob
         const src = URL.createObjectURL(file[0]);
+
+        // console.log(`this is src`, src) // This starts with a blob
         // setUserImageSrc(src);
         // setFilename(file[0].name);
         setPhotoref(src);
         setImage(file[0]) ;
-        // await convertToWebp(src,file[0].name);
+        // await blobtoWebotoFirebase(src,file[0].name);
     }
 }
 
-async function convertToWebp(src,fil) {
+async function blobtoWebotoFirebase(src,fil) {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
@@ -207,7 +211,7 @@ async function convertToWebp(src,fil) {
             await uploadBytes(storageRef, dataURLtoBlob(webpImage)).then((snapshot) => {
               getDownloadURL(snapshot.ref).then(async(url) => {
                 // // setCurrentpic(url);
-                setPhotoref(url);
+                // setPhotoref(url);
                 // Mongoupload(url)
                 if (image) {
                   // Send a POST request to your backend API endpoint to save the photo reference to MongoDB
@@ -251,7 +255,8 @@ async function convertToWebp(src,fil) {
 
   return (
     <form onSubmit={handleSubmit} className='flex flex-col bg-blue-400 gap-3 p-4 rounded-lg'>
-              <div className='flex justify-center'>
+              {/* <div className='flex justify-center'>
+
           {photoref && (
             <img
               className=""
@@ -262,6 +267,20 @@ async function convertToWebp(src,fil) {
             />
           )}
         </div>
+         */}
+         <div className='flex justify-around p-2'>
+    {Array.from(selectedFile?selectedFile:[]).map((src, index) => (
+        <img
+            key={index} // Ensure to provide a unique key for each image
+            className=""
+            src={URL.createObjectURL(src)}
+            height={100}
+            width={100}
+            alt={`Image ${index}`} // Provide a meaningful alt text
+        />
+    ))}
+</div>
+
       <div className='flex flex-row items-center'>
         <p className='mr-4 text-white'>NAME:</p>
         <input
@@ -269,6 +288,7 @@ async function convertToWebp(src,fil) {
           id="name"
           type="text"
           placeholder="Name"
+          multiple
           // value={formData.name}
           onChange={handleName}
         />
@@ -292,7 +312,7 @@ async function convertToWebp(src,fil) {
   type="file"
   multiple
   placeholder='01'
-  onChange={convertImage}
+  onChange={ImagetoBlob}
 
     //       onChange={
     //         (event) => {

@@ -10,9 +10,10 @@ const Productitem = ({product} : {product: Product }) => {
         {/* <p>{product.image}</p> */}
         <figure className=' text-sm w-full'>
             <Link  href={`/product/${product.slug}`}>
-                <img
+                <Image
                     src={product.image}
                     alt={product.name}
+                    loading='lazy'
                     // objectFit='cover'
                     //So afr, I think the grid css is better for cards and width and height inside it is best
                     // The width and height seems to set the maximum allowable dimensions

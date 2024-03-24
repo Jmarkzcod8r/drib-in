@@ -31,29 +31,23 @@ export default function Home() {
     //   setError('Server error');
     // }
   };
+  function handleFileUpload(event) {
+    const files = event.target.files;
+    console.log(files); // This logs a FileList object
+    console.log(files.length); // This logs the number of files selected
 
-  return (
+    // Accessing individual files
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        console.log(file); // This logs each individual File object
+        console.log(file.name); // This logs the name of each file
+    }
+}
+
+return (
     <div>
-      <h1>URL Shortener</h1>
-      {shortenedUrl}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Enter URL"
-          value={originalUrl}
-          onChange={(e) => setOriginalUrl(e.target.value)}
-        />
-        <button type="submit">Shorten</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      jhbjjj
-      <p><a href={shortenedUrl}>{shortenedUrl}</a> </p>
-      {shortenedUrl && (
-        <p>
-          Shortened URL: <a href={originalUrl}>{shortenedUrl}</a>
-
-        </p>
-      )}
+        <input type='file' accept='image/*' multiple onChange={handleFileUpload} />
     </div>
-  );
+);
+
 }
