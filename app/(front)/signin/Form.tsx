@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import Link from 'next/link'
+import axios from 'axios'
 
     type Inputs = {
     email: string
@@ -31,6 +32,28 @@ const Form = () => {
   useEffect(() => {
     console.log('@ sing-in - params:', params.get('callbackUrl'))
     if (session && session.user) {
+      try{
+
+
+        const resStores: () => Promise<void> = async () => {
+          try {
+              const response = await axios.get(`/api/store/${session.user._id!}`);
+              const storeNames = response.data.store.map(store => store.name); //-> The map function made this an array from objects
+              localStorage.setItem('stores', storeNames)
+              // console.log('Stores:', response);
+          } catch (error) {
+              console.error('Error fetching stores:', error);
+          }
+      };
+
+          resStores()
+
+
+      } catch (error) {
+        console.error
+      }
+
+
       try {
         localStorage.setItem('name', session.user.name!)
         localStorage.setItem('email', session.user.email!)
@@ -58,6 +81,9 @@ const Form = () => {
       password,
     })
   }
+
+
+
   return (
     <div className="max-w-sm  mx-auto card bg-base-300 my-4">
       <div className="card-body">

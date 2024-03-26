@@ -1,10 +1,106 @@
 'use client'
 
+// import { useSearchParams } from 'next/navigation'
+// import React, { useEffect, useState } from 'react'
+
+// const page = () => {
+
+//     const [image, setImage] = useState<File |  null>(null)
+//     const [photoref, setPhotoref] = useState(``)
+//     const [selectedFile, setSelectedFile] = useState<FileList | null>(null);
+
+
+//     const searchParams = useSearchParams()
+//     const slug = searchParams.get('slug')
+//     const files = searchParams.get('files')
+//     console.log('files:', files)
+
+
+
+//     async function ImagetoBlob(event: React.ChangeEvent<HTMLInputElement>) {
+//         const files = event.target.files;
+//         console.log('Selected files:', files);
+//         setSelectedFile(files);
+
+//         if (files && files.length > 0) {
+//             // Create an array to store file names
+//             const fileNames: string[] = [];
+
+//             // Extract file names from the FileList object
+//             for (let i = 0; i < files.length; i++) {
+//                 fileNames.push(files[i].name);
+//             }
+
+//             // Save file names to local storage
+//             // localStorage.setItem('selectedFiles', JSON.stringify(fileNames));
+
+//             // Create blob URLs for the first file
+//             const src = URL.createObjectURL(files[0]);
+//             setPhotoref(src);
+//             setImage(files[0]);
+//         }
+//     }
+
+
+//     useEffect(() => {
+//         // Retrieve selected files from local storage
+//         const storedFiles = localStorage.getItem('selectedFiles');
+//         if (storedFiles) {
+//             const fileNames = JSON.parse(storedFiles);
+//             // You can use the file names to re-render or perform any necessary operations
+//         }
+//     }, []);
+
+
+
+//   return (
+//     <div className='flex justify-center items-center flex-col'>
+//  <div className='bg-green-200 p-2 min-h-[5%] grid grid-cols-4 gap-4 mb-5'>
+//     {Array.from(selectedFile?selectedFile:[]).map((src, index) => (
+//         <img
+//             key={index} // Ensure to provide a unique key for each image
+//             className="bg-blue-300 rounded-md"
+//             src={URL.createObjectURL(src)}
+//             height={150}
+//             width={150}
+//             alt={`Image ${index}`} // Provide a meaningful alt text
+//         />
+//     ))}
+// </div>
+
+// <div className="relative bg-pink-400 w-[15em] h-[10em] rounded-md">
+//     {/* <label htmlFor="fileInput" className="relative cursor-pointer"> */}
+//     <div className="absolute bg-red-200 rounded-md py-1 w-full h-full px-2  flex justify-center items-center">
+//         <img src="/images/addPhotos.png" alt="Example Image" className='relative'/>
+//             {/* Optionally, you can add text or an icon to indicate file selection */}
+//             {/* <span>Select Files</span> */}
+//         </div>
+//         <input
+//             className="relative inset-0 opacity-0 cursor-pointer bg-slate-500 z-20 w-full h-full"
+//             id="fileInput"
+//             type="file"
+//             multiple
+//             onChange={ImagetoBlob}
+//         />
+
+//     {/* </label> */}
+// </div>
+// <button>Submit </button>
+
+
+//     </div>
+//   )
+// }
+
+// export default page
+
+
+
 import React, { useEffect, useState } from 'react';
 import ImageKit from 'imagekit';
 // import Image from 'next/image';
 import axios from 'axios'
-import { storage } from '../../../lib/firebase-config'
+import { StoreApi } from 'zustand';
 import {
   ref,
   uploadBytes,
@@ -17,6 +113,7 @@ import { POST } from '@/lib/auth';
 import { makeslug } from '@/lib/utils';
 
 import { useSearchParams } from 'next/navigation'
+import { storage } from '@/lib/firebase-config';
 
 
 const AddProductForm: React.FC<{ onSubmit: (formData: any) => void }> = ({ onSubmit }) => {
@@ -38,24 +135,13 @@ const searchParams = useSearchParams()
   const store = searchParams.get('store')
 
 
-const handleUpload = async () => {
-  if (selectedFile) {
-      const fileListArray = Array.from(selectedFile); // Convert FileList to array
-      for (let i = 0; i < fileListArray.length; i++) {
-          const file = fileListArray[i];
-          if (file) {
-              // Assuming blobtoWebotoFirebase is an asynchronous function
-              await blobtoWebotoFirebase(URL.createObjectURL(file), file.name);
-          }
-      }
-  }
-};
+  const slug = searchParams.get('slug')
+
+
 
   const [formData, setFormData] = useState({
     name: '',
     slug: '',
-
-    description:'',
     category: '',
     image: '',
     price: '',
@@ -81,7 +167,6 @@ const handleUpload = async () => {
       name: '',
       slug: '',
       category: '',
-      description: '',
       image: '',
       price: '',
       brand: '',
@@ -160,26 +245,28 @@ async function blobtoWebotoFirebase(src,fil) {
             await uploadBytes(storageRef, dataURLtoBlob(webpImage)).then((snapshot) => {
               getDownloadURL(snapshot.ref).then(async(url) => {
                 // // setCurrentpic(url);
-                // setPhotoref(url);
-                // Mongoupload(url)
+
                 if (image) {
                   // Send a POST request to your backend API endpoint to save the photo reference to MongoDB
                   try {
-                      const response = await axios.post(`/api/addPPhoto`, {
-                          name: !name ? image.name : name,
-                          slug: !name ? makeslug(image.name) : makeslug(name),
-                          category: 'Shirts',
-                          image: url,
-                          price: formData.price? formData.price : 37,
-                          brand: 'brandz',
-                          otherimages: [],
-                          store: store? store: '',
-                          rating: 4.5,
-                          numReviews: 8,
-                          countInStock: 20,
-                          description: 'A popular shirt',
-                          isFeatured: true,
-                          banner: '/images/Gensanshop.png',
+                      const response = await axios.post(`/api/product/addphoto`, {
+                                slug: slug ,
+                                url: url
+
+                    /*     //   name: !name ? image.name : name,
+                        //   slug: !name ? makeslug(image.name) : makeslug(name),
+                        //   category: 'Shirts',
+                        //   image: url,
+                        //   price: formData.price? formData.price : 37,
+                        //   brand: 'brandz',
+                        //   otherimages: [],
+                        //   store: store? store: '',
+                        //   rating: 4.5,
+                        //   numReviews: 8,
+                        //   countInStock: 20,
+                        //   description: 'A popular shirt',
+                        //   isFeatured: true,
+                        //   banner: '/images/Gensanshop.png', */
                       });
                       console.log(response.data);
                       // Throw a success message on the client side
@@ -190,6 +277,8 @@ async function blobtoWebotoFirebase(src,fil) {
               }
 
                 console.log("this is firebase url: ",url)
+                urllist.push(url)
+                // return url
               }) } )
 
             // Trigger download
@@ -199,24 +288,39 @@ async function blobtoWebotoFirebase(src,fil) {
             // ()=> downloadLink.click();
         };
     }
+
+    console.log('urllist:', urllist)
 }
+
+const [urllist, setUrllist] = useState<string[]>([])
+
+const handleUpload = async () => {
+    console.log('handleupload')
+    if (selectedFile) {
+        const fileListArray = Array.from(selectedFile); // Convert FileList to array
+        const urls: string[] = [];
+        for (let i = 0; i < fileListArray.length; i++) {
+            const file = fileListArray[i];
+            if (file) {
+                // Assuming blobtoWebotoFirebase is an asynchronous function
+                const url = await blobtoWebotoFirebase(URL.createObjectURL(file), file.name);
+                if (url !== null && url !== undefined) {
+                    urls.push(url); // Push the returned URL to the array
+                }
+            }
+        }
+        setUrllist(urls); // Update the state with the array of URLs
+        console.log('urllist:', urls)
+    }
+    console.log('urllist:')
+
+};
+
 
 
   return (
     <form onSubmit={handleSubmit} className='flex flex-col bg-blue-400 gap-3 p-4 rounded-lg'>
-              {/* <div className='flex justify-center'>
 
-          {photoref && (
-            <img
-              className=""
-              src={photoref}
-              height={200}
-              width={200}
-              alt=""
-            />
-          )}
-        </div>
-         */}
          <div className='flex justify-around p-2'>
     {Array.from(selectedFile?selectedFile:[]).map((src, index) => (
         <img
@@ -230,33 +334,10 @@ async function blobtoWebotoFirebase(src,fil) {
     ))}
 </div>
 
-      <div className='flex flex-row items-center'>
-        <p className='mr-4 text-white'>NAME:</p>
-        <input
-          className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
-          id="name"
-          type="text"
-          placeholder="Name"
-          multiple
-          // value={formData.name}
-          onChange={handleName}
-        />
-      </div>
-      {/* <div className='flex flex-row items-center'>
-        <p className='mr-4 text-white'>SLUG:</p>
-        <input
-          className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
-          id="slug"
-          type="text"
-          placeholder="Slug"
-          value={formData.slug}
-          onChange={handleChange}
-        />
-      </div> */}
       <div className='flex flex-row items-center '>
         {/* <canvas id='canvas'></canvas> */}
-        <p className='mr-4 text-white'>IMAGE:</p>
-        {store ? (
+
+        {/* {store ? (
                 <input
                     className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
                     id="name"
@@ -264,7 +345,7 @@ async function blobtoWebotoFirebase(src,fil) {
                     placeholder="Name"
                     onChange={ImagetoBlob}
                 />
-            ) : (
+            ) : ( */}
                 <input
                     className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
                     id="name"
@@ -272,92 +353,9 @@ async function blobtoWebotoFirebase(src,fil) {
                     multiple
                     onChange={ImagetoBlob}
                 />
-            )}
-      </div>
-      {/* <div className='flex flex-row items-center'>
-        <p className='mr-4 text-white'>CATEGORY:</p>
-        <input
-          className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
-          id="category"
-          type="text"
-          placeholder="Category"
-          value={formData.category}
-          onChange={handleChange}
-        />
-      </div> */}
-       <div className='flex flex-row items-center'>
-        <p className='mr-4 text-white'>Description:</p>
-        <input
-          className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
-          id="description"
-          type="text"
-          placeholder="Description"
-          value={formData.description}
-          onChange={handleChange}
-        />
+            {/* )} */}
       </div>
 
-      <div className='flex flex-row items-center'>
-        <p className='mr-4 text-white'>PRICE:</p>
-        <input
-          className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
-          id="price"
-          type="text"
-          placeholder="Price"
-          value={formData.price}
-          onChange={handleChange}
-        />
-      </div>
-      {/* <div className='flex flex-row items-center'>
-        <p className='mr-4 text-white'>BRAND:</p>
-        <input
-          className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
-          id="brand"
-          type="text"
-          placeholder="Brand"
-          value={formData.brand}
-          onChange={handleChange}
-        />
-      </div> */}
-      {/* <div className='flex flex-row items-center'>
-        <p className='mr-4 text-white'>RATING:</p>
-        <input
-          className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
-          id="rating"
-          type="text"
-          placeholder="Rating"
-          value={formData.rating}
-          onChange={handleChange}
-        />
-      </div> */}
-      {/* <div className='flex flex-row items-center'>
-        <p className='mr-4 text-white'>NUMBER OF REVIEWS:</p>
-        <input
-          className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
-          id="numReviews"
-          type="text"
-          placeholder="Number of Reviews"
-          value={formData.numReviews}
-          onChange={handleChange}
-        />
-      </div> */}
-      <div className='flex flex-row items-center'>
-        <p className='mr-4 text-white'>COUNT IN STOCK:</p>
-        <input
-          className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
-          id="countInStock"
-          type="text"
-          placeholder="Type Pre-order for homemade products"
-          value={formData.countInStock}
-          onChange={handleChange}
-        />
-      </div>
-      {/* <button
-        type="submit"
-        className='bg-white text-blue-400 py-2 px-4 rounded-md hover:bg-blue-200 transition duration-300 self-center'
-      >
-        Submit
-      </button> */}
 
       <button onClick={handleUpload} className='bg-white text-blue-400 py-2 px-4 rounded-md hover:bg-blue-200 transition duration-300 self-center'>
         Upload
@@ -379,7 +377,7 @@ const MyComponent: React.FC = () => {
     <div>
       <AddProductForm onSubmit={handleSubmit} />
 
-      {/* <button onClick={uploadImag}>Upload Image</button> */}
+
     </div>
   );
 };

@@ -4,6 +4,7 @@ import ProductModel, { Product } from '@/lib/models/ProductModel'
 
 export const revalidate = 3600
 
+// It would have been better if there is a delete, update and get specific for each  product on this page
 
 
 const getLatest = cache(async (limit?: number) => {
@@ -19,7 +20,9 @@ const getLatest = cache(async (limit?: number) => {
 
 
   return products;
-}) as (limit?: number) => Promise<Product[]>;
+}) as
+// any
+(limit?: number) => Promise<Product[]>;
 
 const getFeatured = cache(async () => {
   await dbConnect()
@@ -27,10 +30,21 @@ const getFeatured = cache(async () => {
   return products as Product[]
 })
 
+
+
+
 const getBySlug = cache(async (slug: string) => {
   await dbConnect()
   const product = await ProductModel.findOne({ slug }).lean()
   return product as Product
+})
+
+const DeleteBySlug = cache(async (slug: string) => {
+  await dbConnect()
+  const product = await ProductModel.findOneAndDelete({ slug });
+
+  // Return the deleted product
+  return product as Product;
 })
 
 const productService = {

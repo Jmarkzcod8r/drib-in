@@ -25,7 +25,7 @@ const Menumid = () => {
     init()
   }
 
-  const { data: session } = useSession()
+  const { data: session } = useSession() //-> I guess you can put the session in the useEffect dependency
 
   // const { theme, toggleTheme } = useLayoutService()
 

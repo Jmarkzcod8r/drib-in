@@ -12,12 +12,12 @@ import ProductItem from '@/components/products/ProductItem';
 const Front = () => {
   const searchParams = useSearchParams()
   const name = searchParams.get('name')
+  const store = searchParams.get('store')
   const [owner, setOwner] = useState(false)
   const [user, setUser]= useState(false)
   const [storeNames, setStoreNames] = useState<string[]>([]); // This resolve the issue of arument
                                       //type string not assignable to type never.
   const [productslist, setProductslist] = useState<any[]>([])
-
 
   const fetchData = async () => {
     const userId = localStorage.getItem('id');
@@ -25,7 +25,6 @@ const Front = () => {
         try {
             const response = await axios.get(`/api/store/${userId}`);
             console.log('Data:', response.data.store);
-
             const names = response.data.store.map((store) => store.name);
             console.log('names', names)
             localStorage.setItem('Stores',names)
@@ -35,9 +34,7 @@ const Front = () => {
             } else {
               console.log(`${name} is not present in the names array.`);
             }
-
             setStoreNames(names);
-
             // setData(response.data.store);
             // setShowForm(false); // Assuming you want to hide the form after fetching data
             // throw response.data.message
@@ -45,20 +42,19 @@ const Front = () => {
         } catch (error) {
             console.error('Error fetching data:', error);
         }
-
-
-        try {
-
-          const response = await axios.get(`/api/store/${name}/products`);
-          setProductslist(response.data.products)
-            console.log('store products:', response.data);
-
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-    }
+           }
 };
+const getCards = async() => {
+  try {
 
+    const response = await axios.get(`/api/store/${name}/products`);
+    setProductslist(response.data.products.reverse())
+      console.log('store products:', response.data);
+
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
 
   useEffect(() => {
     const getuser = async () => {
@@ -66,7 +62,7 @@ const Front = () => {
       if (localuser) {setUser (true)}
     }
     fetchData()
-    // storecred()
+    getCards()
     // This empty array stops useEfffect from re-renders
   },[])
 
@@ -91,7 +87,8 @@ const Front = () => {
       </button>
       {/* Content of the component */}
       <div>
-       <Search/>
+        <div className='divider'><h1>{name}</h1></div>
+       {/* <Search/> */}
       </div>
       {/* {latestProducts?.map((product) => (
           <ProductItem key={product.slug} product={product} />

@@ -1,5 +1,5 @@
 import React from 'react'
-import MyComponent from './add'
+import Add from './add'
 
 export const metadata = {
     title: 'Shopping Cart'
@@ -8,7 +8,7 @@ export const metadata = {
 
 const CartPage = () => {
   return (
-   <MyComponent/>
+   <Add/>
   )
 }
 

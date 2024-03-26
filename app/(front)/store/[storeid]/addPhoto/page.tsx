@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import ImageKit from 'imagekit';
 // import Image from 'next/image';
 import axios from 'axios'
-import { storage } from '../../../lib/firebase-config'
+import { storage } from '@/lib/firebase-config';
 import {
   ref,
   uploadBytes,
@@ -37,6 +37,60 @@ const searchParams = useSearchParams()
 
   const store = searchParams.get('store')
 
+const folderRef = ref(storage, "images/");
+
+const uploadFile = (image) => {
+  if (image == null) return;
+  listAll(folderRef).then((response) => {
+    console.log("current response: ", response);
+    // response.items.forEach((item, index) => {
+      // console.log("loc: ", item._location.path_);
+
+      // const deleteRef = ref(storage, item._location.path_);
+      // deleteObject(deleteRef);
+    // });
+  });
+  try {
+    if (image) {
+      console.log('this is image',image.width)
+
+
+
+
+      const imageRef = ref(storage, `images/${image.name + v4()}`);
+      uploadBytes(imageRef, image).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url) => {
+          // setCurrentpic(url);
+          setPhotoref(url);
+          console.log("this url: ",url)
+
+
+
+          // handleUpload();
+        });
+      });
+
+
+    }
+
+
+
+
+  } catch (err) {
+    console.log(err)
+  }
+
+};
+
+// const handleUpload = async () => {
+
+// if (image) {
+//                                   // image.name is the same as file.name with file being our upload input
+//      //photoref => URL.createobjectUR(file[0])  // image => file[0]
+//   await blobtoWebotoFirebase(photoref,image.name);
+// }
+
+// };
 
 const handleUpload = async () => {
   if (selectedFile) {
@@ -54,8 +108,6 @@ const handleUpload = async () => {
   const [formData, setFormData] = useState({
     name: '',
     slug: '',
-
-    description:'',
     category: '',
     image: '',
     price: '',
@@ -81,7 +133,6 @@ const handleUpload = async () => {
       name: '',
       slug: '',
       category: '',
-      description: '',
       image: '',
       price: '',
       brand: '',
@@ -256,25 +307,57 @@ async function blobtoWebotoFirebase(src,fil) {
       <div className='flex flex-row items-center '>
         {/* <canvas id='canvas'></canvas> */}
         <p className='mr-4 text-white'>IMAGE:</p>
-        {store ? (
-                <input
-                    className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
-                    id="name"
-                    type="file"
-                    placeholder="Name"
-                    onChange={ImagetoBlob}
-                />
-            ) : (
-                <input
-                    className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
-                    id="name"
-                    type="file"
-                    multiple
-                    onChange={ImagetoBlob}
-                />
-            )}
+        <input
+  className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto mb-4'
+  type="file"
+  multiple
+  placeholder='01'
+  onChange={ImagetoBlob}
+
+    //       onChange={
+    //         (event) => {
+    //         if (event.target.files && event.target.files.length > 0) {
+    //           const selectedFile = event.target.files[0];
+    //           const fileSizeInBytes = selectedFile.size;
+    //           const fileSizeInMB = fileSizeInBytes / (1024 * 1024);
+    //           console.log(`File size: ${fileSizeInMB.toFixed(2)} MB`);
+    //           // This saves our pic to firebase Storage
+    //           uploadFile(selectedFile)
+    //           // This shows our pic in the front-end
+    //           setImage(selectedFile);
+    //         } else {
+    //           console.log("No file selected");
+    //           // Handle the case when no file is selected
+    //         }
+
+    //          if (event.target && event.target.files && event.target.files.length > 0) {
+    //   const file = event.target.files[0];
+    //   const reader = new FileReader();
+
+    //   reader.onload = (e) => {
+    //     if (e.target) {
+    //       const image = document.createElement('img');
+    //       image.src = e.target.result as string;
+
+    //       image.onload = () => {
+    //         const width = image.width;
+    //         const height = image.height;
+    //         console.log('Width:', width);
+    //         console.log('Height:', height);
+    //       };
+    //     }
+    //   };
+
+    //   reader.readAsDataURL(file);
+    // } else {
+    //   console.log("No file selected");
+    // }
+    //        }
+
+          //  } />
+          />
       </div>
-      {/* <div className='flex flex-row items-center'>
+      <div className='flex flex-row items-center'>
         <p className='mr-4 text-white'>CATEGORY:</p>
         <input
           className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
@@ -282,17 +365,6 @@ async function blobtoWebotoFirebase(src,fil) {
           type="text"
           placeholder="Category"
           value={formData.category}
-          onChange={handleChange}
-        />
-      </div> */}
-       <div className='flex flex-row items-center'>
-        <p className='mr-4 text-white'>Description:</p>
-        <input
-          className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
-          id="description"
-          type="text"
-          placeholder="Description"
-          value={formData.description}
           onChange={handleChange}
         />
       </div>
@@ -308,7 +380,7 @@ async function blobtoWebotoFirebase(src,fil) {
           onChange={handleChange}
         />
       </div>
-      {/* <div className='flex flex-row items-center'>
+      <div className='flex flex-row items-center'>
         <p className='mr-4 text-white'>BRAND:</p>
         <input
           className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
@@ -318,7 +390,7 @@ async function blobtoWebotoFirebase(src,fil) {
           value={formData.brand}
           onChange={handleChange}
         />
-      </div> */}
+      </div>
       {/* <div className='flex flex-row items-center'>
         <p className='mr-4 text-white'>RATING:</p>
         <input
@@ -347,7 +419,7 @@ async function blobtoWebotoFirebase(src,fil) {
           className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
           id="countInStock"
           type="text"
-          placeholder="Type Pre-order for homemade products"
+          placeholder="Count in Stock"
           value={formData.countInStock}
           onChange={handleChange}
         />

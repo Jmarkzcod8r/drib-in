@@ -11,8 +11,14 @@ import { convertDocToObj } from '@/lib/utils'
 import { FaChevronLeft } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa";
 import { RiArrowGoBackLine } from "react-icons/ri";
+import Swal from 'sweetalert2'
 
+import { useSearchParams } from 'next/navigation'
+import Delete from './Delete'
 
+// export const metadata = {
+//   title: 'Sdasdasdadasds'
+// }
 export async function generateMetadata({
   params,
 }: {
@@ -40,28 +46,51 @@ export async function generateMetadata({
 // };
 
 
-export default async function ProductDetails({ params,} : {params : {slug: string}}) {
+
+export default async function ProductDetails({ params} : {params : {slug: string}}) {
   const product = await productService.getBySlug(params.slug)
+
+
   if (!product) {
     return <div>Product not found</div>
   }
+
+
+
+  const handleUploadPics = () => {
+    Swal.fire({
+        title: 'Upload Pics',
+        input: 'file',
+        inputAttributes: {
+            multiple: 'multiple'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Upload',
+        cancelButtonText: 'Cancel',
+        showLoaderOnConfirm: true,
+        preConfirm: (files) => {
+            // Here you can handle the uploaded files
+            console.log(files);
+        }
+    });
+};
+
   return (
         <>
           <div className="my-2 flex flex-row">
             <Link href="/"><RiArrowGoBackLine /></Link>
           </div>
           <div className="grid md:grid-cols-2 md:gap-3 bg-blue-100 ">
-          <div className="flex flex-row justify-around p-2 relative ">
+            <div className='flex flex-col'>
+            <div className="flex flex-row justify-around p-2 relative ">
+
+
                 {/* Left arrow */}
-                <button
+                {/* <button
                   className=' w-full'
-                  // className=" top-1/2 left-0 transform -translate-y-1/2 h-full bg-slate-400"
-                  /* onClick={handlePreviousImage} */
                 >
                     <FaChevronLeft />
-                  {/* Insert your left arrow icon here */}
-                  {/* Example: <LeftArrowIcon /> */}
-                </button>
+                </button> */}
 
                 {/* Image */}
                 <img
@@ -71,19 +100,28 @@ export default async function ProductDetails({ params,} : {params : {slug: strin
                 />
 
                 {/* Right arrow */}
-                                  <button
+                                  {/* <button
                     className='flex items-center justify-end w-full '
-                    /* onClick={handleNextImage} */
                   >
-                    {/* Icon */}
-                    {/* <div className="flex-shrink-0"> */}
+
                       <FaChevronRight />
-                      {/* Insert your right arrow icon here */}
-                      {/* Example: <RightArrowIcon /> */}
-                    {/* </div> */}
-                    {/* Optional text */}
-                    {/* <span>Next</span> */}
-                  </button>
+                  </button> */}
+
+              </div>
+              <div className='inline-block mt-5'>
+
+              {/* {product.otherimages?.map((prod)=>
+                 <div className='inline-block mt-5'>{prod}</div>
+                )} */}
+                </div>
+            <div className="flex items-center justify-center ">
+              <Delete slug={params.slug} prodstore={product.store}/>
+        {/* <Link href={`/product/addPhotos/prod?slug=${params.slug}`}>
+                <span>Upload Pics</span>
+        </Link> */}
+    </div>
+
+
 
               </div>
 
@@ -92,12 +130,16 @@ export default async function ProductDetails({ params,} : {params : {slug: strin
                 <li>
                   <h1 className="text-xl">{product.name}</h1>
                 </li>
-                <li>
+
+                {/* <li>
                 {product.rating} of {product.numReviews} reviews
-                </li>
+                </li> */}
                 {/* <li> {product.brand}</li> */}
                 <li>
                   <div className="divider"></div>
+                </li>
+                <li>
+                  P {product.price}
                 </li>
 
               {/* </ul> */}
@@ -105,6 +147,9 @@ export default async function ProductDetails({ params,} : {params : {slug: strin
               {/* <ul> */}
             <li>
                   Description: <p>{product.description}</p>
+                </li>
+                <li>
+                  Stock: <p>{product.countInStock}</p>
                 </li>
               </ul>
             {/* </div> */}

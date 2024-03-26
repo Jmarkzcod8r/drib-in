@@ -8,7 +8,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import Swal from 'sweetalert2';
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 
 
 import brownies from 'brownies.jpeg'
@@ -30,13 +30,25 @@ export default async function Front() {
 
   // if (typeof window == "undefined") { window.location.reload()}
 
+  // const getStores = async() => {
+  //   try{
+  //     const resStores = await axios.get(`api/store/${localStorage.getItem('id')}`)
+  //     console.log(`resSores: `, resStores)
+  //   } catch (eror) {
+  //     console.error
+  //   }
+  // }
 
+  // useEffect(()=> {
+  //   getStores()
+  // })
 
 
   return (
+    <>
     <div className='bg-black-200'>
 
-      <div className="w-full carousel rounded-box mt-4 bg-pink-400">
+      <div className="w-full carousel rounded-box mt-4 bg-pink-400 z-0">
         {featuredProducts.map((product, index) => (
           <div
             key={product._id}
@@ -108,5 +120,6 @@ export default async function Front() {
         </div> */}
       </div>
     </div>
+    </>
   )
 }

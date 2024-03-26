@@ -10,6 +10,7 @@ const Productitem = ({product} : {product: Product }) => {
         {/* <p>{product.image}</p> */}
         <figure className=' text-sm w-full'>
             <Link  href={`/product/${product.slug}`}>
+            {/* <Link  href={`/product/prod?slug=${product.slug}&&store=${product.store}`}> */}
                 <Image
                     src={product.image}
                     alt={product.name}
@@ -27,7 +28,7 @@ const Productitem = ({product} : {product: Product }) => {
             </Link>
         </figure>
         <div className='card-body  p-2 rounded-md'>
-            <Link href={`/product/${product.slug}`}>
+            <Link href={`/product/prod?slug=${product.slug}`}>
                 <p className='card-title text-sm sm:text-md'>
                     {product.name}
                 </p>

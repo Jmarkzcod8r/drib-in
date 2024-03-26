@@ -44,6 +44,7 @@ function DigitalStoreForm() {
     }
 
       fetchData();
+      // I guess one way to utilize useEffect is to put the state on which you use setState etc..
   }, []); // Make sure to include an empty dependency array to ensure useEffect runs only once
 
 
@@ -96,6 +97,16 @@ function DigitalStoreForm() {
         banner: 'https://firebasestorage.googleapis.com/v0/b/delsa-profiling.appspot.com/o/images%2FG%20E%20N%20S%20A%20N%20S%20H%20O%20P_1711211136435.webp?alt=media&token=e92a21db-e14e-4bab-a554-afffbfab1c55'
       });
       alert(res.data.message); // Log the response data
+
+
+      try {
+        const response = await axios.get(`/api/store/${localStorage.getItem('id')}`);
+        const storeNames = response.data.store.map(store => store.name); //-> The map function made this an array from objects
+        localStorage.setItem('stores', storeNames)
+        // console.log('Stores:', response);
+    } catch (error) {
+        console.error('Error fetching stores:', error);
+    }
     } catch (error) {
       alert( error);
     }
