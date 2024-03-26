@@ -87,9 +87,10 @@ const getCards = async() => {
       </button>
       {/* Content of the component */}
       <div>
-        <div className='divider'><h1>{name}</h1></div>
-       {/* <Search/> */}
-      </div>
+    <div className='divider text-2xl font-serif text-brown-700'><h1>{name}</h1></div>
+    {/* <Search/> */}
+</div>
+
       {/* {latestProducts?.map((product) => (
           <ProductItem key={product.slug} product={product} />
         ))} */}
