@@ -129,7 +129,7 @@ const Menumid = () => {
 </div>
 
 
-<div className=' w-[50%] justify-around hidden sm:flex h-auto'>
+<div className=' w-[50%] justify-around sm:flex h-auto'>
 <Link className='scale-150' title='Home' href="/">
   <FaHome className='scale-150' />
 </Link>
