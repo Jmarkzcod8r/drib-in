@@ -81,7 +81,7 @@ const handleUpload = async () => {
       name: '',
       slug: '',
       category: '',
-      description: '',
+      description: ' ',
       image: '',
       price: '',
       brand: '',
@@ -177,7 +177,7 @@ async function blobtoWebotoFirebase(src,fil) {
                           rating: 4.5,
                           numReviews: 8,
                           countInStock: 20,
-                          description: formData.description? formData.description: ' ',
+                          description: formData.description? formData.description:' ',
                           isFeatured: true,
                           banner: '/images/Gensanshop.png',
                       });
