@@ -1,17 +1,26 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import Link from 'next/link'
 import Menu from './Menu'
 import Menumid from './Menumid'
 import { useSearchParams } from 'next/navigation'
+import axios from 'axios'
 
 
 
-const Header = () => {
+const Header = ({}) => {
   const searchParams = useSearchParams()
 
   const name = searchParams.get('name')
+  useEffect(()=> {
+    // const dataStores = async() => {
+    //   const response = await axios.post(`/api/store/${localStorage.getItem('email')}/cred`, {
+    //   email:'jasdj'
+    // }) }
+
+    // dataStores()
+  },[])
 
   return (
     <header>
@@ -30,7 +39,7 @@ const Header = () => {
 
 
 
-       <Menu/>
+       <Menu />
     </div>
    </nav>
    </header>

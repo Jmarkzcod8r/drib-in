@@ -11,6 +11,7 @@ import { BsBoxes } from "react-icons/bs";
 import { IoMdContact } from "react-icons/io";
 import { HiMiniPhoto } from "react-icons/hi2";
 import { RiFeedbackLine } from "react-icons/ri";
+import axios from 'axios'
 
 // import { SearchBox } from './SearchBox'
 
@@ -18,6 +19,7 @@ const Menumid = () => {
   const { items, init } = useCartService()
   const [mounted, setMounted] = useState(false)
   const [user, setUser] = useState('')
+  const [dataStores, setDataStores] = useState([])
 
   const signoutHandler = () => {
     signOut({ callbackUrl: '/signin' }),
@@ -45,7 +47,7 @@ const Menumid = () => {
 
 
     setMounted(true)
-  }, [])
+  }, [session, ])
 
   return (
     <>
