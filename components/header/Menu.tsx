@@ -20,6 +20,7 @@ const router = useRouter()
   const [user, setUser] = useState('')
   const [stores, setStores] = useState<string[]>([]);
 
+  const [storelenth, setStoreslength] = useState(0)
 
 
   const signoutHandler = () => {
@@ -39,6 +40,7 @@ const router = useRouter()
   const [reloadOnce, setReloadOnce] = useState(false);
 
   useEffect(() => {
+    setStoreslength(stores.length)
     if (session) {
       console.log(session)
     }
@@ -62,7 +64,7 @@ const router = useRouter()
 
     // Mounted here is used to identify if the page has loaded completely
     setMounted(true)
-  }, [session]) //--> making it like this `}, [session])` seems to resolve my issue of stores in the dropdown
+  }, [session,stores.length ]) //--> making it like this `}, [session])` seems to resolve my issue of stores in the dropdown
 
   const handleChange = (e) => {
     const selectedStore = e.target.value;
