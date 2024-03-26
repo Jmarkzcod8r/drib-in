@@ -10,6 +10,7 @@ import useSWR, { useSWRConfig } from 'swr'
 // import { SearchBox } from './SearchBox'
 
 import { useRouter } from 'next/navigation'
+// import useLocalStor
 
 
 const Menu = ({}) => {
@@ -18,6 +19,7 @@ const router = useRouter()
   const { items, init } = useCartService()
   const [mounted, setMounted] = useState(false)
   const [user, setUser] = useState('')
+  // const [localstores, setLocalstores]=useState()
   const [stores, setStores] = useState<string[]>([]);
   // const [eamil]
 

@@ -55,7 +55,7 @@ const handleUpload = async () => {
     name: '',
     slug: '',
 
-    description:' ',
+    description:'',
     category: '',
     image: '',
     price: '',
@@ -77,18 +77,18 @@ const handleUpload = async () => {
     e.preventDefault();
     onSubmit(formData);
     // You can reset the form fields here if needed
-    setFormData({
-      name: '',
-      slug: '',
-      category: '',
-      description: ' ',
-      image: '',
-      price: '',
-      brand: '',
-      rating: '',
-      numReviews: '',
-      countInStock: '',
-    });
+    // setFormData({
+    //   name: '',
+    //   slug: '',
+    //   category: '',
+    //   description: '...',
+    //   image: '',
+    //   price: '',
+    //   brand: '',
+    //   rating: '',
+    //   numReviews: '',
+    //   countInStock: '',
+    // });
   };
 
   useEffect(() => {
@@ -170,20 +170,25 @@ async function blobtoWebotoFirebase(src,fil) {
                           slug: !name ? makeslug(image.name) : makeslug(name),
                           category: 'Shirts',
                           image: url,
-                          price: formData.price? formData.price: '',
+                          price: typeof formData.price === 'number' ? formData.price : 0 ,
                           brand: 'brandz',
                           otherimages: [],
                           store: store? store: '',
                           rating: 4.5,
                           numReviews: 8,
                           countInStock: 20,
-                          description: formData.description? formData.description:' ',
+                          description:  !formData.description ? ' ': formData.description,
                           isFeatured: true,
                           banner: '/images/Gensanshop.png',
                       });
-                      console.log(response.data);
+                      if(response.data.success){
+                        alert('Image uploaded');
+                      } else {
+                        alert('Error Uploading image')
+                      }
+
                       // Throw a success message on the client side
-                      alert('Image uploaded');
+
                   } catch (error) {
                       console.error(error);
                   }
