@@ -101,7 +101,7 @@ const getCards = async() => {
        {owner?
         <div className='card bg-base-300 shadow-xl p-1'>
                   <figure className='text-sm w-full'>
-            <a href={`/add?store=${name}`} target="_blank" rel="noopener noreferrer">
+            <a href={`/add?store=${name}`} rel="noopener noreferrer">
               <Image
                 src={`/images/add.png`}
                 alt={`sdasd`}
