@@ -55,7 +55,7 @@ const handleUpload = async () => {
     name: '',
     slug: '',
 
-    description:'',
+    description:' ',
     category: '',
     image: '',
     price: '',
