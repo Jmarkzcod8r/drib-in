@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import Front from './front'
 
 export const metadata: Metadata = {
-  title: 'GenShop',
+  title: 'JMlinen',
 }
 export default function OrderHistory() {
 
