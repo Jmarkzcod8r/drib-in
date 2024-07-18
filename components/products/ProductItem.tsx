@@ -6,7 +6,7 @@ import Image from 'next/image'
 
 const Productitem = ({product} : {product: Product }) => {
   return (
-    <div className='card bg-red-200 h-auto bg-base-700 shadow-xl p-1' draggable='true'>
+    <div className='card bg-red-200 h-auto bg-base-700 shadow-xl p-1 hover:scale-110' draggable='true'>
         {/* <p>{product.image}</p> */}
         <figure className=' text-sm w-full'>
             <Link  href={`/product/${product.slug}`}>
@@ -33,12 +33,13 @@ const Productitem = ({product} : {product: Product }) => {
                     {product.name}
                 </p>
             </Link>
-            {/* <p className=''>{product.brand}</p> */}
+            {/* <p className=''>{product.rating}</p> */}
             <div className='card-actions flex items-center justify-between '>
-                <span className='text-sm sm:text-md'> ₱ {product.price}</span>
+                <span className='text-sm sm:text-md'>₱rice:  {product.price}</span>
 
             </div>
-            <div>Pre-Order </div>
+            <p className=''>Stock: {product.countInStock}</p>
+            {/* <div>Pre-Order </div> */}
         </div>
 
     </div>

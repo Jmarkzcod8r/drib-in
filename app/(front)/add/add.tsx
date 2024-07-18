@@ -36,6 +36,7 @@ const [file, setFile] = useState<File |  null>(null)
 const searchParams = useSearchParams()
 
   const store = searchParams.get('store')
+  const storeid = searchParams.get('id')
 
 
 const handleUpload = async () => {
@@ -43,9 +44,11 @@ const handleUpload = async () => {
       const fileListArray = Array.from(selectedFile); // Convert FileList to array
       for (let i = 0; i < fileListArray.length; i++) {
           const file = fileListArray[i];
-          if (file) {
+          if (file && store !== null) {
               // Assuming blobtoWebotoFirebase is an asynchronous function
               await blobtoWebotoFirebase(URL.createObjectURL(file), file.name);
+          } else {
+            alert("Error uploading image: Store required")
           }
       }
   }
@@ -63,6 +66,7 @@ const handleUpload = async () => {
     rating: '',
     numReviews: '',
     countInStock: '',
+    storeid: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,7 +130,7 @@ async function blobtoWebotoFirebase(src,fil) {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
-    if (ctx) {
+    if (ctx && store !== '') {
         const userImage = new Image();
         userImage.src = src;
 
@@ -157,6 +161,7 @@ async function blobtoWebotoFirebase(src,fil) {
             setPhotoref(webpImage);
             // The timestamp -> Date.now() makes the file unique in firease storage.
             const storageRef = ref(storage, `images/${fil.slice(0, fil.lastIndexOf('.'))}_${Date.now()}.webp`);
+
             await uploadBytes(storageRef, dataURLtoBlob(webpImage)).then((snapshot) => {
               getDownloadURL(snapshot.ref).then(async(url) => {
                 // // setCurrentpic(url);
@@ -174,6 +179,7 @@ async function blobtoWebotoFirebase(src,fil) {
                           brand: 'brandz',
                           otherimages: [],
                           store: store? store: '',
+                          storeid: storeid,
                           rating: 4.5,
                           numReviews: 8,
                           countInStock: 20,
@@ -181,13 +187,16 @@ async function blobtoWebotoFirebase(src,fil) {
                           isFeatured: true,
                           banner: '/images/Gensanshop.png',
                       });
+
+
                       if(response.data.success){
                         alert('Image uploaded');
                       } else {
-                        alert('Error Uploading image')
+                        alert('Error Uploading image: Store required')
                       }
 
-                      // Throw a success message on the client side
+
+
 
                   } catch (error) {
                       console.error(error);
@@ -267,7 +276,11 @@ async function blobtoWebotoFirebase(src,fil) {
                     id="name"
                     type="file"
                     placeholder="Name"
+                    // remove below for single input
+                    // multiple
+
                     onChange={ImagetoBlob}
+
                 />
             ) : (
                 <input

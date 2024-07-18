@@ -24,7 +24,7 @@ const Search = () => {
           alert('No store found');
         } else {
           // Open the specific store URL in a new window
-          window.open(`/store/store?name=${response.data.store.name}`, '_blank', 'noopener,noreferrer');
+          window.open(`/store/store?name=${response.data.store.name}&id=${response.data.store._id}`, '_blank', 'noopener,noreferrer');
           // Alert that store is found
           alert('Store found');
         }
@@ -46,11 +46,12 @@ const Search = () => {
   };
 
   return (
-    <div className="flex justify-around text-sm my-2 sm:text-md md:text-lg py-2 bg-blue-400 p-4 rounded-md w-full">
+    <div className="flex flex-row justify-around text-sm my-2 sm:text-md md:text-lg py-2  rounded-md w-full">
       <div>
         <input
-          placeholder= {name? 'Search a product':'Search a store'}
-          className='searchbar h-[2em]'
+          // placeholder= {name? 'Search a product':'Search a store'}
+          placeholder = {'Search a store'}
+          className='searchbar h-[2em] w-[120px] sm:w-[150px] md:w-[200px] lg:w-[300px] xl:w-[350px]'
           value={storeName}
           onChange={(e) => setStoreName(e.target.value)}
           onKeyDown={handleKeyDown} // Call handleSearch on Enter key press
@@ -58,7 +59,7 @@ const Search = () => {
         <button onClick={handleSearch}>
           <FcSearch className='scale-150 mx-2' />
         </button>
-      </div>
+        </div>
     </div>
   );
 };

@@ -88,7 +88,7 @@ const productSchema = new mongoose.Schema(
       name: { type: String, required: true },
       // To satify the unique:true of slug, we can use timestamp or uuid or the uniqueness of another property
       // like an email
-      slug: { type: String, required: true, unique: true },
+      slug: { type: String, required: true, unique: true }, // This is a primary key
       category: { type: String, required: true },
       image: { type: String, required: true },
       otherimages: [{ type: String, required: false }], //-> This makes it an array of strings
@@ -100,7 +100,14 @@ const productSchema = new mongoose.Schema(
       description: { type: String, required: true },
       isFeatured: { type: Boolean, default: false },
       store:  { type: String, required: true },
-      banner: String,
+      banner: { type: String, required: false },
+      storeid: {type: String, required: true },
+      strd: {type: String, require: true, default: 'def'}
+      // createdAt: { type: String, default: new Date().toISOString() }, // Optional, defaults to current date
+      // updatedAt: { type: String, default: new Date().toISOString() },
+      // Below properties added on Jul. 16, 2024
+
+
     },
     {
       timestamps: true,
@@ -116,6 +123,8 @@ const productSchema = new mongoose.Schema(
 //The `?` make the property optional
 // This is for TypeScript
 export type Product = {
+    isFeatured: any
+    createdAt: any
 
     _id?: string
     name: string
@@ -128,6 +137,8 @@ export type Product = {
     store: string
     description: string
     category: string
+    storeid: string
+    strd: string
     rating: number    //dedfault 0
     numReviews: number  //default 0
     countInStock: number  //default 0

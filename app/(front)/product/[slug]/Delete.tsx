@@ -9,7 +9,7 @@ const DeleteButton = ({ slug, prodstore }) => {
     const [stores, setStores] = useState<string[]>([]);
 
     useEffect(() => {
-        const storesFromLocal = localStorage.getItem('stores');
+        const storesFromLocal = localStorage.getItem('Stores');
         const storesArray = storesFromLocal?.split(",") ?? [];
         console.log(`storesArray`, storesArray);
         setStores(storesArray);
@@ -32,7 +32,7 @@ const DeleteButton = ({ slug, prodstore }) => {
     }
 
     return (
-        <div className='rounded-md bg-blue-400'>
+        <div className='rounded-md bg-pink-200'>
             {/* {product.store} */}
             {stores.includes(prodstore) ?
              <button onClick={deleteProd} className='p-5 rounded-md w-[15em]'>Delete</button> :

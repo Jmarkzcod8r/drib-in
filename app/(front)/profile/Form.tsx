@@ -1,20 +1,22 @@
-'use client'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
+'use client';
+import { useSession, signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 type Inputs = {
-  name: string
-  email: string
-  password: string
-  confirmPassword: string
-}
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
 
 const Form = () => {
-  const { data: session, update } = useSession()
-  const router = useRouter()
+  const { data: session, update } = useSession();
+  const router = useRouter();
+  const [deletePassword, setDeletePassword] = useState('');
+  const [showDeletePassword, setShowDeletePassword] = useState(false);
 
   const {
     register,
@@ -28,21 +30,18 @@ const Form = () => {
       email: '',
       password: '',
     },
-  })
+  });
 
   useEffect(() => {
-    console.log('profile session', session)
-
     if (session && session.user) {
-      setValue('name', session.user.name!)
-      setValue('email', session.user.email!)
+      setValue('name', session.user.name || '');
+      setValue('email', session.user.email || '');
     }
-  }, [router, session, setValue])
+  }, [router, session, setValue]);
 
   const formSubmit: SubmitHandler<Inputs> = async (form) => {
-    const { name, email, password } = form
+    const { name, email, password } = form;
     try {
-
       const res = await fetch('/api/auth/profile', {
         method: 'PUT',
         headers: {
@@ -53,10 +52,10 @@ const Form = () => {
           email,
           password,
         }),
-      })
+      });
 
       if (res.status === 200) {
-        toast.success('Profile updated successfully')
+        toast.success('Profile updated successfully');
         const newSession = {
           ...session,
           user: {
@@ -64,26 +63,61 @@ const Form = () => {
             name,
             email,
           },
-        }
-        await update(newSession)
+        };
+        await update(newSession);
       } else {
-        const data = await res.json()
-        toast.error(data.message || 'error')
+        const data = await res.json();
+        toast.error(data.message || 'error');
       }
     } catch (err: any) {
       const error =
         err.response && err.response.data && err.response.data.message
           ? err.response.data.message
-          : err.message
-      toast.error(error)
+          : err.message;
+      toast.error(error);
     }
-  }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!showDeletePassword) {
+      setShowDeletePassword(true);
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/auth/profile', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          password: deletePassword,
+        }),
+      });
+
+      if (res.status === 200) {
+        toast.success('Account deleted successfully');
+        localStorage.clear();
+
+        signOut(); // Log out the user after deletion
+      } else {
+        const data = await res.json();
+        toast.error(data.message || 'error');
+      }
+    } catch (err: any) {
+      const error =
+        err.response && err.response.data && err.response.data.message
+          ? err.response.data.message
+          : err.message;
+      toast.error(error);
+    }
+  };
+
   return (
-    <div className="max-w-sm  mx-auto card bg-base-300 my-4">
+    <div className="max-w-sm mx-auto card bg-base-300 my-4">
       <div className="card-body">
         <h1 className="card-title">Profile</h1>
-        {/* <form onSubmit={handleSubmit(formSubmit)}> */}
-        <form >
+        <form onSubmit={handleSubmit(formSubmit)}>
           <div className="my-2">
             <label className="label" htmlFor="name">
               Name
@@ -143,14 +177,16 @@ const Form = () => {
               id="confirmPassword"
               {...register('confirmPassword', {
                 validate: (value) => {
-                  const { password } = getValues()
-                  return password === value || 'Passwords should match!'
+                  const { password } = getValues();
+                  return password === value || 'Passwords should match!';
                 },
               })}
               className="input input-bordered w-full max-w-sm"
             />
             {errors.confirmPassword?.message && (
-              <div className="text-error">{errors.confirmPassword.message}</div>
+              <div className="text-error">
+                {errors.confirmPassword.message}
+              </div>
             )}
           </div>
 
@@ -167,9 +203,31 @@ const Form = () => {
             </button>
           </div>
         </form>
+        <div className="my-2">
+          {showDeletePassword && (
+            <div className="my-2">
+              <label className="label" htmlFor="deletePassword">
+                Confirm Password to Delete Account
+              </label>
+              <input
+                type="password"
+                id="deletePassword"
+                value={deletePassword}
+                onChange={(e) => setDeletePassword(e.target.value)}
+                className="input input-bordered w-full max-w-sm"
+              />
+            </div>
+          )}
+          <button
+            onClick={handleDeleteAccount}
+            className="btn btn-error w-full mt-2"
+          >
+            {showDeletePassword ? 'Confirm Delete' : 'Delete Account'}
+          </button>
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Form
+export default Form;

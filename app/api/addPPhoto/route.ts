@@ -9,6 +9,7 @@ export async function POST(req: NextRequest) {
 
     // Extract data from the request body
     const data = await req.json();
+    console.log('data payload:', data)
 
     // Insert the data into the database using the Mongoose model
     const newProduct = await ProductModel.create(data);

@@ -38,9 +38,12 @@ const Form = () => {
         const resStores: () => Promise<void> = async () => {
           try {
               const response = await axios.get(`/api/store/${session.user._id!}`);
-              const storeNames = response.data.store.map(store => store.name); //-> The map function made this an array from objects
-              localStorage.setItem('stores', storeNames)
-              // console.log('Stores:', response);
+              const storeList = response.data.store.map(store => ({
+                name: store.name,
+                id: store._id,
+              }));
+
+              localStorage.setItem('storelist', JSON.stringify(storeList));
           } catch (error) {
               console.error('Error fetching stores:', error);
           }

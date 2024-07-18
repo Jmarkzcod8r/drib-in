@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 // This is your global layout which stays true to all page
 
 export const metadata: Metadata = {
-  title: "Next Amazona V2",
+  title: "GensanHomeBids",
   description: "Modern Ecommerce Website",
 };
 

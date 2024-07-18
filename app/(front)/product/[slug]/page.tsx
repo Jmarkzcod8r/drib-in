@@ -77,9 +77,9 @@ export default async function ProductDetails({ params} : {params : {slug: string
 
   return (
         <>
-          <div className="my-2 flex flex-row">
+          {/* <div className="my-2 flex flex-row">
             <Link href="/"><RiArrowGoBackLine /></Link>
-          </div>
+          </div> */}
           <div className="grid md:grid-cols-2 md:gap-3 bg-blue-100 ">
             <div className='flex flex-col'>
             <div className="flex flex-row justify-around p-2 relative ">
@@ -114,7 +114,7 @@ export default async function ProductDetails({ params} : {params : {slug: string
                  <div className='inline-block mt-5'>{prod}</div>
                 )} */}
                 </div>
-            <div className="flex items-center justify-center ">
+            <div className="flex items-center justify-center  ">
               <Delete slug={params.slug} prodstore={product.store}/>
         {/* <Link href={`/product/addPhotos/prod?slug=${params.slug}`}>
                 <span>Upload Pics</span>
@@ -127,30 +127,38 @@ export default async function ProductDetails({ params} : {params : {slug: string
 
             <div className='text-center'>
               <ul className="space-y-4">
-                <li>
+                <fieldset className="border  ">
+                  <legend className="px-2 text-sm text-gray-600 text-start">Name</legend>
                   <h1 className="text-xl">{product.name}</h1>
-                </li>
+                </fieldset>
+                <fieldset className="border  ">
+                  <legend className="px-2 text-sm text-gray-600 text-start">Store</legend>
+                  <Link href={`/store/store?name=${product.store}&id=${product.storeid}`}>
+                    <h1 className='text-xl text-slate-800 drop-shadow-2xl'>{product.store}</h1></Link>
+                </fieldset>
 
                 {/* <li>
                 {product.rating} of {product.numReviews} reviews
                 </li> */}
                 {/* <li> {product.brand}</li> */}
-                <li>
-                  <div className="divider"></div>
-                </li>
-                <li>
-                  P {product.price}
-                </li>
+                <fieldset className="border  ">
+                  <legend className="px-2 text-sm text-gray-600 text-start">Price</legend>
+                  <h1 className="text-xl">{product.price}</h1>
+                </fieldset>
 
               {/* </ul> */}
               {/* <div> */}
               {/* <ul> */}
-            <li>
-                  Description: <p>{product.description}</p>
-                </li>
-                <li>
-                  Stock: <p>{product.countInStock}</p>
-                </li>
+              <fieldset className="border  ">
+                  <legend className="px-2 text-sm text-gray-600 text-start">Description</legend>
+                  <div className='px-8'><h1 className="text-xl">{product.description}</h1></div>
+                </fieldset>
+                <fieldset className="border ">
+                  <legend className="px-2 text-sm text-gray-600 text-start">Stock</legend>
+                  <h1 className="text-xl">{product.countInStock}</h1>
+                </fieldset>
+
+
               </ul>
             {/* </div> */}
             </div>
