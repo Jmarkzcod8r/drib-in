@@ -27,7 +27,7 @@ export default function RootLayout({
       <Providers> {/* This is for your session */}
       <div className="min-h-screen flex flex-col">
 
-      <Header />
+      {/* <Header /> */}
       {/* where are the children */}
       {children}
       <footer className="footer footer-center p-4 bg-base-300 text-base-content">
