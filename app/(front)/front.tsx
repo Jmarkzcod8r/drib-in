@@ -123,7 +123,8 @@ export default async function Front() {
             <Image
               src={image.src}
               alt={image.alt}
-              loading="lazy"
+              // loading="lazy"
+              // placeholder="blur"
               width={10000}
               height={10000}
               className=""
