@@ -107,7 +107,7 @@ export const config = {
       }
       return session
     },
-    // secret: `${process.env.NEXTAUTH_SECRET}`,
+    secret: `${process.env.NEXTAUTH_SECRET}`,
   },
 
 }
