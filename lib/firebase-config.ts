@@ -12,6 +12,7 @@ console.log("commencing... firebaseAPI");
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAoCpwp9oblPVacxoWIUmMx3PLoahnypms",
+  // apiKey: process.env.Firebase,
   authDomain: "delsa-profiling.firebaseapp.com",
   projectId: "delsa-profiling",
   storageBucket: "delsa-profiling.appspot.com",
