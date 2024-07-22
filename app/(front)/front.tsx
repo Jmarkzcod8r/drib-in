@@ -37,7 +37,7 @@ export default async function Front() {
 
   const categoryImages = [
 
-    // { src: '/categories/petshop.png', alt: 'Brownies' },
+    // { src: '/categories/petshop.png', alt: 'Brownies' },//
     { src: '/categories/coffee-shop.jpg', alt: 'Coffee Shop', link:'Coffee Shop' },
     { src: '/categories/bkzt_6m4b_221020.jpg', alt: 'Bakery' , link:'Bakery' },
     { src: '/categories/Flowers2.png', alt: 'floral-shop' , link:'Floral Shop' },
