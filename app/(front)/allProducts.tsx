@@ -42,7 +42,7 @@ const ShowAllProducts = ({ allProducts }) => {
     };
 
     return (
-        <div className=''>
+        <div className=' p-1'>
             {/* Toggle button for mobile and larger screens */}
             <div className="block md:hidden">
                 <button
@@ -68,7 +68,7 @@ const ShowAllProducts = ({ allProducts }) => {
             </div>
 
             {/* Buttons for larger screens */}
-            <div className='hidden md:grid grid-cols-6 gap-6 pb-4'>
+            <div className='hidden md:grid grid-cols-4 gap-6 pb-4'>
                 <button
                     onClick={toggleView}
                     className={`p-2 text-white rounded ${showReversed ? 'bg-red-500 hover:bg-red-600 shadow-red-500/50' : 'bg-green-500 hover:bg-green-600 shadow-green-500/50'} transition-shadow duration-300`}

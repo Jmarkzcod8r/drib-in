@@ -256,9 +256,9 @@ const Front = () => {
       { currsection ==='products' ? <div className='Products flex justify-center flex-col items-center'>
 
         {/* <Search /> */}
-
+                  <div className='bg-red-400 justify-center flex'>
         <ShowAllProducts allProducts={plainProducts} />
-
+                  </div>
           {owner && (
             <div className='card bg-base-300 shadow-xl p-3 w-full sm:w-[300px] mt-4'>
               <figure className='text-sm w-full'>
