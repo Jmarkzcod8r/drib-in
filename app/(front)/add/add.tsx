@@ -175,7 +175,7 @@ async function blobtoWebotoFirebase(src,fil) {
                           slug: !name ? makeslug(image.name) : makeslug(name),
                           category: 'Shirts',
                           image: url,
-                          price: typeof formData.price === 'number' ? formData.price : 0 ,
+                          price: formData.price ,
                           brand: 'brandz',
                           otherimages: [],
                           store: store? store: '',
