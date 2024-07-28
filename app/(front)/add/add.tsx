@@ -320,7 +320,7 @@ async function blobtoWebotoFirebase(src,fil) {
         <input
           className='w-[80%] bg-white rounded-md py-1 px-2 ml-auto'
           id="price"
-          type="text"
+          type="number"
           placeholder="Price"
           value={formData.price}
           onChange={handleChange}
